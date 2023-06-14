@@ -68,8 +68,8 @@
             <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0">
                <children>
                   <ToggleButton fx:id="patientToggle" layoutX="99.0" layoutY="10.0"
-                     mnemonicParsing="false" onAction="#toggleAction" prefHeight="40.0"
-                     prefWidth="178.0" selected="true"
+                     mnemonicParsing="false" onAction="#pToggleAction" prefHeight="40.0"
+                     prefWidth="178.0"
                      style="-fx-background-radius: 20 0 0 20; -fx-border-color: #70787C; -fx-border-radius: 20 0 0 20; -fx-border-width: 1 0 1 1; -fx-text-fill: #191C1D;"
                      text="Patient">
                      <font>
@@ -77,7 +77,7 @@
                      </font>
                   </ToggleButton>
                   <ToggleButton fx:id="doctorToggle" mnemonicParsing="false"
-                     onAction="#toggleAction" prefHeight="40.0" prefWidth="178.0"
+                     onAction="#dToggleAction" prefHeight="40.0" prefWidth="178.0"
                      style="-fx-background-radius: 0 20 20 0; -fx-border-color: #70787C; -fx-border-radius: 0 20 20 0; -fx-text-fill: #191C1D;"
                      text="Doctor/Nurse">
                      <font>
@@ -95,7 +95,7 @@
                   <Insets bottom="8.0" />
                </VBox.margin>
             </Button>
-            <TextFlow prefWidth="200.0" textAlignment="CENTER">
+            <TextFlow fx:id="signUpTextFlow" prefWidth="200.0" textAlignment="CENTER">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account?">
                      <font>

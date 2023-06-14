@@ -16,6 +16,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 public class SignInController implements Initializable {
@@ -25,6 +26,9 @@ public class SignInController implements Initializable {
 
     @FXML
     private TextField emailField;
+
+    @FXML
+    private TextFlow signUpTextFlow;
 
     @FXML
     private PasswordField passwordField;
@@ -43,7 +47,7 @@ public class SignInController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        patientToggle.setSelected(true);
     }
 
     public void switchToSignUp(ActionEvent e) throws IOException {
@@ -54,7 +58,15 @@ public class SignInController implements Initializable {
         stage.show();
     }
 
-    public void toggleAction(ActionEvent e) throws IOException {
+    public void pToggleAction(ActionEvent e) throws IOException {
+        doctorToggle.setSelected(!doctorToggle.isSelected());
+        signUpTextFlow.setVisible(patientToggle.isSelected());
+
+    }
+
+    public void dToggleAction(ActionEvent e) throws IOException {
+        patientToggle.setSelected(!patientToggle.isSelected());
+        signUpTextFlow.setVisible(patientToggle.isSelected());
 
     }
 
