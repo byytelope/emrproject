@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<BorderPane prefHeight="832.0" prefWidth="1280.0" stylesheets="@styles.css"
+   xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1"
+   fx:controller="emrproject.PatientHomeController">
+   <center>
+      <VBox alignment="TOP_CENTER" maxHeight="635.0" maxWidth="802.0" minWidth="802.0"
+         prefWidth="802.0" spacing="16.0"
+         style="-fx-background-color: #ECEEEF; -fx-background-radius: 24;"
+         BorderPane.alignment="CENTER_RIGHT">
+         <children>
+            <HBox spacing="24.0">
+               <VBox.margin>
+                  <Insets bottom="16.0" />
+               </VBox.margin>
+               <children>
+                  <TextField fx:id="preferredDocField" promptText="Preferred Doctor"
+                     styleClass="text-input">
+                     <padding>
+                        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                     </padding>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="reqMedicalDepField" layoutX="10.0" layoutY="10.0"
+                     promptText="Requested Medical Department" styleClass="text-input">
+                     <padding>
+                        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                     </padding>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox spacing="24.0">
+               <children>
+                  <TextField fx:id="reqMedFacilityField" promptText="Preferred Medical Facility"
+                     styleClass="text-input">
+                     <padding>
+                        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                     </padding>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="dateAndTimeField" layoutX="10.0" layoutY="10.0"
+                     promptText="Date and Time" styleClass="text-input">
+                     <padding>
+                        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                     </padding>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <TextArea fx:id="detailsField" promptText="Details" wrapText="true" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets top="16.0" />
+               </VBox.margin>
+            </TextArea>
+            <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="16.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This is a follow-up">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <CheckBox fx:id="isFollowUp" mnemonicParsing="false" />
+               </children>
+               <VBox.margin>
+                  <Insets top="8.0" />
+               </VBox.margin>
+            </HBox>
+            <Button fx:id="requestAppointmentButton" mnemonicParsing="false"
+               onAction="#reqAppointmentAction" prefWidth="1280.0" text="Request Appointment">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="8.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+         <padding>
+            <Insets bottom="32.0" left="32.0" right="32.0" top="32.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets right="64.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <left>
+      <VBox alignment="CENTER" maxHeight="635.0" maxWidth="300.0" prefWidth="300.0" spacing="16.0"
+         style="-fx-background-color: #ECEEEF; -fx-background-radius: 24;"
+         BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" maxWidth="112.0" prefHeight="112.0" prefWidth="112.0"
+               style="-fx-background-color: #00687B; -fx-background-radius: 100px;">
+               <children>
+                  <Text fx:id="avatarText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+                     text="P">
+                     <font>
+                        <Font name="System Bold" size="57.0" />
+                     </font>
+                  </Text>
+               </children>
+               <VBox.margin>
+                  <Insets top="44.0" />
+               </VBox.margin>
+            </HBox>
+            <Text fx:id="patientNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <TextFlow id="text-flow-class" prefWidth="200.0" textAlignment="CENTER">
+               <children>
+                  <Text fx:id="nidText" strokeType="OUTSIDE" strokeWidth="0.0" text="NID" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" | " />
+                  <Text fx:id="genderText" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" | " />
+                  <Text fx:id="ageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Age" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" | " />
+                  <Text fx:id="nationalityText" strokeType="OUTSIDE" strokeWidth="0.0"
+                     text="Nationality" />
+               </children>
+            </TextFlow>
+            <HBox alignment="CENTER" maxWidth="300.0" prefHeight="40.0" prefWidth="0.0"
+               spacing="8.0">
+               <children>
+                  <Button id="icon-text-button" fx:id="phoneButton" graphicTextGap="8.0"
+                     minWidth="122.0" mnemonicParsing="false" onAction="#phoneAction" text="Phone">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true"
+                           preserveRatio="true">
+                           <image>
+                              <Image url="@phone.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button id="icon-text-button" fx:id="emailButton" graphicTextGap="8.0"
+                     minWidth="122.0" mnemonicParsing="false" onAction="#emailAction" text="Email">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true"
+                           preserveRatio="true">
+                           <image>
+                              <Image url="@email.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            <Button fx:id="viewReportsButton" mnemonicParsing="false" onAction="#viewReportsAction"
+               prefHeight="40.0" prefWidth="1280.0" text="View Reports">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="24.0" right="24.0" />
+               </VBox.margin>
+            </Button>
+            <VBox spacing="8.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Allergies" />
+                  <Text fx:id="allergiesText" fill="#00687b" strokeType="OUTSIDE" strokeWidth="0.0"
+                     text="Allergy 1, Allergy 2, Allergy 3, Allergy 4" />
+               </children>
+               <VBox.margin>
+                  <Insets left="24.0" right="24.0" top="24.0" />
+               </VBox.margin>
+            </VBox>
+            <HBox alignment="TOP_CENTER" fillHeight="false" prefHeight="56.0">
+               <children>
+                  <Button id="fab" fx:id="updateInfoButton" graphicTextGap="8.0"
+                     mnemonicParsing="false" onAction="#updateInfoAction" text="Update Info"
+                     HBox.hgrow="NEVER">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+                           preserveRatio="true">
+                           <image>
+                              <Image url="@edit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets left="64.0" />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+   <top>
+      <Button id="icon-text-button" fx:id="signOutButton" graphicTextGap="8.0"
+         mnemonicParsing="false" onAction="#signOutAction" text="Sign Out"
+         BorderPane.alignment="CENTER_LEFT">
+         <graphic>
+            <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@logout.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <BorderPane.margin>
+            <Insets left="64.0" top="48.0" />
+         </BorderPane.margin>
+      </Button>
+   </top>
+</BorderPane>
