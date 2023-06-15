@@ -2,19 +2,27 @@ package utils;
 
 import models.User;
 
-public class UserSession {
-    private static User user;
+public final class UserSession {
     private static UserSession instance;
+    private User user;
 
-    public static UserSession UserInstance() {
-        if (UserSession.instance == null) {
-            UserSession.instance = new UserSession();
-        }
-
-        return UserSession.instance;
+    private UserSession(User user) {
+        this.user = user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public static UserSession createInstance(User user) {
+        if (instance == null) {
+            instance = new UserSession(user);
+        }
+
+        return instance;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void clearInstance() {
+        user = null;
     }
 }

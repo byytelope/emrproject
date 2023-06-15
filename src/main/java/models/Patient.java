@@ -64,4 +64,10 @@ public class Patient {
     public int getContactNumber() {
         return this.contactNumber;
     }
+
+    @Override
+    public String toString() {
+        return "Patient {" + "name='" + name + "', " + "nid='" + nid + "', " + "gender='" + gender + "', " + "address='"
+                + address + "', " + "age='" + age + "', " + "contactNumber='" + contactNumber + "'}";
+    }
 }
