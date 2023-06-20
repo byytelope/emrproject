@@ -17,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import utils.UserSession;
 
 public class PatientHomeController implements Initializable {
     private Stage stage;
@@ -82,7 +83,7 @@ public class PatientHomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        System.out.println(UserSession.getInstance().getUser());
     }
 
     public void signOutAction(ActionEvent e) throws IOException {

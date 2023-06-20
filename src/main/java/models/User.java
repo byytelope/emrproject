@@ -1,5 +1,7 @@
 package models;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class User {
     private String uid;
     private String name;
@@ -7,12 +9,14 @@ public class User {
     private String passwordHash;
     private boolean isPatient;
 
-    public User(String uid, String name, String email, String passwordHash, boolean isPatient) {
+    public User(String uid, String name, String email, String password, boolean isPatient) {
         this.uid = uid;
         this.name = name;
         this.email = email;
-        this.passwordHash = passwordHash;
         this.isPatient = isPatient;
+
+        String hPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        this.passwordHash = hPassword;
     }
 
     public void setUid(String uid) {
@@ -53,5 +57,12 @@ public class User {
 
     public boolean isPatient() {
         return this.isPatient;
+    }
+
+    @Override
+    public String toString() {
+        return '"' + this.uid + "\"," + '"' + this.name + "\"," + '"' + this.email + "\"," + '"' + this.passwordHash
+                + "\"," + '"' + this.isPatient
+                + "\"\n";
     }
 }

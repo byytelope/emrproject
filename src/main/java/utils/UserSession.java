@@ -3,19 +3,26 @@ package utils;
 import models.User;
 
 public final class UserSession {
-    private static UserSession instance;
+    private static volatile UserSession instance;
     private User user;
 
-    private UserSession(User user) {
-        this.user = user;
+    private UserSession() {
     }
 
-    public static UserSession createInstance(User user) {
+    public static UserSession getInstance() {
         if (instance == null) {
-            instance = new UserSession(user);
+            synchronized (UserSession.class) {
+                if (instance == null) {
+                    instance = new UserSession();
+                }
+            }
         }
 
         return instance;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public User getUser() {

@@ -22,7 +22,9 @@ import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import models.Patient;
 import models.User;
-import utils.Misc;
+import utils.CsvHandler;
+import utils.MiscUtils;
+import utils.UserSession;
 
 public class SignUpController implements Initializable {
     private Stage stage;
@@ -105,8 +107,8 @@ public class SignUpController implements Initializable {
         boolean passwordIsValid = !password.isBlank() && password.length() > 6;
         boolean confirmPasswordIsValid = password.contentEquals(confirmPassword);
         boolean nameIsValid = !name.isBlank() && name.length() > 6;
-        boolean ageIsValid = Misc.isNumeric(age);
-        boolean contactNumberIsValid = Misc.isNumeric(contactNumber);
+        boolean ageIsValid = MiscUtils.isNumeric(age);
+        boolean contactNumberIsValid = MiscUtils.isNumeric(contactNumber);
         boolean genderIsValid = gender != null;
 
         String errorText = "";
@@ -140,13 +142,14 @@ public class SignUpController implements Initializable {
         }
 
         if (errorText.isBlank()) {
-            Patient patient = new Patient(name, nid, gender, address, Integer.parseInt(age),
-                    Integer.parseInt(contactNumber));
-            System.out.println(patient.toString());
-            // TODO: DB insert patient
+            User user = new User(nid, name, email, password, true);
+            Patient patient = new Patient(name, nid, gender, address, contactNumber, Integer.parseInt(age));
 
-            // User user = new User(nid, name, email, password, true);
-            // TODO: DB insert user
+            UserSession.getInstance().setUser(user);
+
+            CsvHandler csvHandler = new CsvHandler();
+            csvHandler.addUser(user);
+            csvHandler.addPatient(patient);
 
             return true;
         } else {

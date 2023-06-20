@@ -15,7 +15,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent signInRoot = FXMLLoader.load(getClass().getResource("signIn.fxml"));
+        Parent signInRoot = FXMLLoader.load(getClass().getResource("/emrproject/signIn.fxml"));
         Scene signInScene = new Scene(signInRoot);
 
         stage.setResizable(false);

@@ -5,16 +5,16 @@ public class Patient {
     private String nid;
     private String gender;
     private String address;
+    private String contactNumber;
     private int age;
-    private int contactNumber;
 
-    public Patient(String name, String nid, String gender, String address, int age, int contactNumber) {
+    public Patient(String name, String nid, String gender, String address, String contactNumber, int age) {
         this.name = name;
         this.nid = nid;
         this.gender = gender;
         this.address = address;
-        this.age = age;
         this.contactNumber = contactNumber;
+        this.age = age;
     }
 
     public void setName(String name) {
@@ -33,12 +33,12 @@ public class Patient {
         this.address = address;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
-    public void setContactNumber(int contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getName() {
@@ -57,17 +57,19 @@ public class Patient {
         return this.address;
     }
 
+    public String getContactNumber() {
+        return this.contactNumber;
+    }
+
     public int getAge() {
         return this.age;
     }
 
-    public int getContactNumber() {
-        return this.contactNumber;
-    }
-
     @Override
     public String toString() {
-        return "Patient {" + "name='" + name + "', " + "nid='" + nid + "', " + "gender='" + gender + "', " + "address='"
-                + address + "', " + "age='" + age + "', " + "contactNumber='" + contactNumber + "'}";
+        return '"' + this.name + "\"," + '"' + this.nid + "\"," + '"' + this.gender + "\"," + '"' + this.address + "\","
+                + '"'
+                + this.age + "\","
+                + '"' + this.contactNumber + "\"\n";
     }
 }
