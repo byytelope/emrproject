@@ -1,26 +1,26 @@
 package models;
 
-import org.mindrot.jbcrypt.BCrypt;
+import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class User {
-    private String uid;
+    private String nid;
     private String name;
     private String email;
     private String passwordHash;
     private boolean isPatient;
 
-    public User(String uid, String name, String email, String password, boolean isPatient) {
-        this.uid = uid;
+    public User(String nid, String name, String email, String password, boolean isPatient) {
+        this.nid = nid;
         this.name = name;
         this.email = email;
         this.isPatient = isPatient;
 
-        String hPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        String hPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray());
         this.passwordHash = hPassword;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setNid(String nid) {
+        this.nid = nid;
     }
 
     public void setName(String name) {
@@ -39,8 +39,8 @@ public class User {
         this.isPatient = isPatient;
     }
 
-    public String getUid() {
-        return this.uid;
+    public String getNid() {
+        return this.nid;
     }
 
     public String getName() {
@@ -61,7 +61,7 @@ public class User {
 
     @Override
     public String toString() {
-        return '"' + this.uid + "\"," + '"' + this.name + "\"," + '"' + this.email + "\"," + '"' + this.passwordHash
+        return '"' + this.nid + "\"," + '"' + this.name + "\"," + '"' + this.email + "\"," + '"' + this.passwordHash
                 + "\"," + '"' + this.isPatient
                 + "\"\n";
     }

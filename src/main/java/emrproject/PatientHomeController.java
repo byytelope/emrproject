@@ -17,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import utils.CsvHandler;
 import utils.UserSession;
 
 public class PatientHomeController implements Initializable {
@@ -83,7 +84,9 @@ public class PatientHomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println(UserSession.getInstance().getUser());
+        System.out.println("Current user NID: " + UserSession.getInstance().getUser().getNid());
+        CsvHandler csvHandler = new CsvHandler();
+        csvHandler.getPatient("");
     }
 
     public void signOutAction(ActionEvent e) throws IOException {

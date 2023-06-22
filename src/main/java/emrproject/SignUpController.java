@@ -2,6 +2,7 @@ package emrproject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -143,7 +144,8 @@ public class SignUpController implements Initializable {
 
         if (errorText.isBlank()) {
             User user = new User(nid, name, email, password, true);
-            Patient patient = new Patient(name, nid, gender, address, contactNumber, Integer.parseInt(age));
+            Patient patient = new Patient(name, nid, gender, address, contactNumber, Integer.parseInt(age),
+                    new ArrayList<String>());
 
             UserSession.getInstance().setUser(user);
 
