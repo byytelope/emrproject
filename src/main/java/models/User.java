@@ -1,5 +1,7 @@
 package models;
 
+import java.lang.reflect.Field;
+
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class User {
@@ -59,10 +61,39 @@ public class User {
         return this.isPatient;
     }
 
-    @Override
-    public String toString() {
+    public String toCsvString() {
         return '"' + this.nid + "\"," + '"' + this.name + "\"," + '"' + this.email + "\"," + '"' + this.passwordHash
                 + "\"," + '"' + this.isPatient
                 + "\"\n";
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName()).append("{");
+
+        Field[] fields = getClass().getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            fields[i].setAccessible(true);
+            sb.append(fields[i].getName()).append("=");
+
+            try {
+                Object value = fields[i].get(this);
+                if (value instanceof String) {
+                    sb.append("\"").append(value).append("\"");
+                } else {
+                    sb.append(value);
+                }
+            } catch (IllegalAccessException e) {
+                sb.append("N/A");
+            }
+
+            if (i < fields.length - 1) {
+                sb.append(", ");
+            }
+        }
+
+        sb.append("}");
+        return sb.toString();
     }
 }

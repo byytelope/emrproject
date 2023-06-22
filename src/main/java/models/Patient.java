@@ -1,5 +1,7 @@
 package models;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Patient {
@@ -12,7 +14,7 @@ public class Patient {
     private List<String> allergies;
 
     public Patient(String name, String nid, String gender, String address, String contactNumber, int age,
-            List<String> allergies) {
+            ArrayList<String> allergies) {
         this.name = name;
         this.nid = nid;
         this.gender = gender;
@@ -78,11 +80,41 @@ public class Patient {
         return this.allergies;
     }
 
-    @Override
-    public String toString() {
+    public String toCsvString() {
         return '"' + this.name + "\"," + '"' + this.nid + "\"," + '"' + this.gender + "\"," + '"' + this.address + "\","
                 + '"'
                 + this.age + "\","
-                + '"' + this.contactNumber + '"' + this.allergies + "\"\n";
+                + '"' + this.contactNumber +
+                "\"," + '"' + String.join(",", this.allergies) + "\"\n";
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName()).append("{");
+
+        Field[] fields = getClass().getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            fields[i].setAccessible(true);
+            sb.append(fields[i].getName()).append("=");
+
+            try {
+                Object value = fields[i].get(this);
+                if (value instanceof String) {
+                    sb.append("\"").append(value).append("\"");
+                } else {
+                    sb.append(value);
+                }
+            } catch (IllegalAccessException e) {
+                sb.append("N/A");
+            }
+
+            if (i < fields.length - 1) {
+                sb.append(", ");
+            }
+        }
+
+        sb.append("}");
+        return sb.toString();
     }
 }
