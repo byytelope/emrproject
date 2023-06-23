@@ -50,7 +50,8 @@
             </HBox>
             <HBox spacing="24.0">
                <children>
-                  <TextField fx:id="reqMedFacilityField" promptText="Preferred Medical Facility"
+                  <TextField fx:id="preferredMedFacilityField"
+                     promptText="Preferred Medical Facility"
                      styleClass="text-input">
                      <padding>
                         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
@@ -59,8 +60,8 @@
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="dateAndTimeField" layoutX="10.0" layoutY="10.0"
-                     promptText="Date and Time" styleClass="text-input">
+                  <TextField fx:id="dateField" layoutX="10.0" layoutY="10.0" promptText="Date"
+                     styleClass="text-input">
                      <padding>
                         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                      </padding>
@@ -82,7 +83,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Text>
-                  <CheckBox fx:id="isFollowUp" mnemonicParsing="false" />
+                  <CheckBox fx:id="isFollowUpCheckBox" mnemonicParsing="false" />
                </children>
                <VBox.margin>
                   <Insets top="8.0" />

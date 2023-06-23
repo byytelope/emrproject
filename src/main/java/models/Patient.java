@@ -1,27 +1,35 @@
 package models;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Patient {
-    private String name;
+public class Patient extends BaseModel {
     private String nid;
+    private String name;
     private String gender;
     private String address;
+    private String nationality;
+    private String email;
     private String contactNumber;
     private int age;
     private List<String> allergies;
 
-    public Patient(String name, String nid, String gender, String address, String contactNumber, int age,
-            ArrayList<String> allergies) {
-        this.name = name;
+    public Patient(String nid, String name, String gender, String address, String nationality, String email,
+            String contactNumber,
+            int age,
+            List<String> allergies) {
         this.nid = nid;
+        this.name = name;
         this.gender = gender;
         this.address = address;
+        this.nationality = nationality;
+        this.email = email;
         this.contactNumber = contactNumber;
         this.age = age;
         this.allergies = allergies;
+    }
+
+    public Patient() {
     }
 
     public void setName(String name) {
@@ -38,6 +46,14 @@ public class Patient {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setContactNumber(String contactNumber) {
@@ -68,6 +84,14 @@ public class Patient {
         return this.address;
     }
 
+    public String getNationality() {
+        return this.nationality;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
     public String getContactNumber() {
         return this.contactNumber;
     }
@@ -78,43 +102,5 @@ public class Patient {
 
     public List<String> getAllergies() {
         return this.allergies;
-    }
-
-    public String toCsvString() {
-        return '"' + this.name + "\"," + '"' + this.nid + "\"," + '"' + this.gender + "\"," + '"' + this.address + "\","
-                + '"'
-                + this.age + "\","
-                + '"' + this.contactNumber +
-                "\"," + '"' + String.join(",", this.allergies) + "\"\n";
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName()).append("{");
-
-        Field[] fields = getClass().getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            fields[i].setAccessible(true);
-            sb.append(fields[i].getName()).append("=");
-
-            try {
-                Object value = fields[i].get(this);
-                if (value instanceof String) {
-                    sb.append("\"").append(value).append("\"");
-                } else {
-                    sb.append(value);
-                }
-            } catch (IllegalAccessException e) {
-                sb.append("N/A");
-            }
-
-            if (i < fields.length - 1) {
-                sb.append(", ");
-            }
-        }
-
-        sb.append("}");
-        return sb.toString();
     }
 }

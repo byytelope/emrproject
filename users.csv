@@ -1,2 +1,2 @@
-uid,name,email,passwordHash,isPatient
-"A123456","Mohamed Shadhaan","shadhanm@gmail.com","$2a$12$SM1JaolvOF8KVUppZ.Wg6uJ/JdPkR6/ejE9c2TK1C/U.pwyQI/rhW","true"
+nid,name,email,password,isPatient
+"A123456","Mohamed Shadhaan","shadhanm@gmail.com","wasdokok","true"

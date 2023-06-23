@@ -1,7 +1,7 @@
 module emrproject {
     requires javafx.controls;
     requires javafx.fxml;
-    requires bcrypt;
+    requires java.desktop;
     requires transitive javafx.graphics;
 
     opens emrproject to javafx.fxml;

@@ -5,31 +5,22 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="832.0" maxWidth="1280.0" prefHeight="832.0" prefWidth="1280.0"
-   style="-fx-background-color: #F8F9FB;" stylesheets="@styles.css"
-   xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1"
-   fx:controller="emrproject.SignInController">
+<AnchorPane maxHeight="832.0" maxWidth="1280.0" prefHeight="832.0" prefWidth="1280.0" style="-fx-background-color: #F8F9FB;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emrproject.SignInController">
    <children>
-      <VBox alignment="CENTER" maxWidth="356.0" minWidth="356.0" prefHeight="832.0"
-         prefWidth="356.0" spacing="16.0" AnchorPane.bottomAnchor="0.0"
-         AnchorPane.leftAnchor="462.0" AnchorPane.rightAnchor="462.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" maxWidth="356.0" minWidth="356.0" prefHeight="832.0" prefWidth="356.0" spacing="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="462.0" AnchorPane.rightAnchor="462.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane maxHeight="192.0" maxWidth="192.0" prefHeight="192.0" prefWidth="192.0"
-               style="-fx-background-radius: 100px; -fx-background-color: #DBE4E7;">
+            <Pane maxHeight="192.0" maxWidth="192.0" prefHeight="192.0" prefWidth="192.0" style="-fx-background-radius: 100px; -fx-background-color: #DBE4E7;">
                <children>
-                  <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="36.0" layoutY="36.0"
-                     pickOnBounds="true">
+                  <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="36.0" layoutY="36.0" pickOnBounds="true">
                      <image>
                         <Image url="@logo.png" />
                      </image>
@@ -42,8 +33,7 @@
                   <Insets bottom="59.0" />
                </VBox.margin>
             </Pane>
-            <TextField fx:id="emailField" prefHeight="56.0" promptText="Email"
-               styleClass="text-input">
+            <TextField fx:id="emailField" prefHeight="56.0" promptText="Email" styleClass="text-input">
                <padding>
                   <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                </padding>
@@ -65,29 +55,7 @@
                   <Insets bottom="16.0" />
                </VBox.margin>
             </PasswordField>
-            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0">
-               <children>
-                  <ToggleButton fx:id="patientToggle" layoutX="99.0" layoutY="10.0"
-                     mnemonicParsing="false" onAction="#pToggleAction" prefHeight="40.0"
-                     prefWidth="178.0"
-                     style="-fx-background-radius: 20 0 0 20; -fx-border-color: #70787C; -fx-border-radius: 20 0 0 20; -fx-border-width: 1 0 1 1; -fx-text-fill: #191C1D;"
-                     text="Patient">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </ToggleButton>
-                  <ToggleButton fx:id="doctorToggle" mnemonicParsing="false"
-                     onAction="#dToggleAction" prefHeight="40.0" prefWidth="178.0"
-                     style="-fx-background-radius: 0 20 20 0; -fx-border-color: #70787C; -fx-border-radius: 0 20 20 0; -fx-text-fill: #191C1D;"
-                     text="Doctor/Nurse">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </ToggleButton>
-               </children>
-            </HBox>
-            <Button fx:id="signInButton" mnemonicParsing="false" onAction="#signInAction"
-               text="Sign In">
+            <Button fx:id="signInButton" defaultButton="true" mnemonicParsing="false" onAction="#signInAction" text="Sign In">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -102,8 +70,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
-                  <Hyperlink fx:id="signUpLink" onAction="#switchToSignUp"
-                     style="-fx-text-fill: #00687B;" text="Set one up now">
+                  <Hyperlink fx:id="signUpLink" onAction="#switchToSignUp" style="-fx-text-fill: #00687B;" text="Set one up now">
                      <font>
                         <Font size="12.0" />
                      </font>

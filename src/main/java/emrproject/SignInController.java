@@ -2,6 +2,8 @@ package emrproject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -11,13 +13,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import models.User;
+import utils.CsvHandler;
+import utils.UserSession;
 
 public class SignInController implements Initializable {
     private Stage stage;
@@ -34,12 +40,6 @@ public class SignInController implements Initializable {
     private PasswordField passwordField;
 
     @FXML
-    private ToggleButton doctorToggle;
-
-    @FXML
-    private ToggleButton patientToggle;
-
-    @FXML
     private Button signInButton;
 
     @FXML
@@ -47,7 +47,6 @@ public class SignInController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        patientToggle.setSelected(true);
     }
 
     public void switchToSignUp(ActionEvent e) throws IOException {
@@ -58,32 +57,35 @@ public class SignInController implements Initializable {
         stage.show();
     }
 
-    public void pToggleAction(ActionEvent e) throws IOException {
-        doctorToggle.setSelected(!doctorToggle.isSelected());
-        signUpTextFlow.setVisible(patientToggle.isSelected());
-
-    }
-
-    public void dToggleAction(ActionEvent e) throws IOException {
-        patientToggle.setSelected(!patientToggle.isSelected());
-        signUpTextFlow.setVisible(patientToggle.isSelected());
-
-    }
-
     public void signInAction(ActionEvent e) throws IOException {
-        if (validateLogin()) {
+        CsvHandler csvHandler = new CsvHandler();
+        List<User> users = csvHandler.getAllUsers();
+        User currentUser = null;
+
+        for (User user : users) {
+            if (user.getEmail().equals(emailField.getText()) && user.getPassword().equals(passwordField.getText())) {
+                currentUser = user;
+                break;
+            } else {
+                continue;
+            }
+        }
+
+        if (currentUser == null) {
+            Alert loginAlert = new Alert(AlertType.ERROR);
+            loginAlert.setHeaderText("User not found");
+            loginAlert.setContentText("Please enter valid email and password or sign up");
+            loginAlert.showAndWait();
+        } else {
+            UserSession.getInstance().setUser(currentUser);
             System.out.println("Logged in");
-            root = doctorToggle.isSelected() && !patientToggle.isSelected()
-                    ? FXMLLoader.load(getClass().getResource("doctorHome.fxml"))
-                    : FXMLLoader.load(getClass().getResource("patientHome.fxml"));
+            root = currentUser.getIsPatient()
+                    ? FXMLLoader.load(getClass().getResource("patientHome.fxml"))
+                    : FXMLLoader.load(getClass().getResource("doctorHome.fxml"));
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         }
-    }
-
-    private boolean validateLogin() {
-        return true;
     }
 }

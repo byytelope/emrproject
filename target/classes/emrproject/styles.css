@@ -73,6 +73,7 @@
   -fx-background-radius: 100px;
   -fx-pref-width: 1280px;
   -fx-pref-height: 40px;
+  -fx-cursor: hand;
 }
 
 #icon-button {

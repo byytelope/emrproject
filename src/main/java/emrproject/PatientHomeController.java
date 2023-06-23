@@ -1,8 +1,12 @@
 package emrproject;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,18 +15,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import models.AppointmentRequest;
+import models.Patient;
 import utils.CsvHandler;
+import utils.UserSession;
 
 public class PatientHomeController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private Patient currentPatient = null;
 
     @FXML
     private TextField preferredDocField;
@@ -31,16 +41,16 @@ public class PatientHomeController implements Initializable {
     private TextField reqMedicalDepField;
 
     @FXML
-    private TextField reqMedFacilityField;
+    private TextField preferredMedFacilityField;
 
     @FXML
-    private TextField dateAndTimeField;
+    private TextField dateField;
 
     @FXML
     private TextArea detailsField;
 
     @FXML
-    private CheckBox isFollowUp;
+    private CheckBox isFollowUpCheckBox;
 
     @FXML
     private Button requestAppointmentButton;
@@ -83,10 +93,20 @@ public class PatientHomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // System.out.println("Current user NID: " +
-        // UserSession.getInstance().getUser().getNid());
+        String currentUserNid = UserSession.getInstance().getUser().getNid();
         CsvHandler csvHandler = new CsvHandler();
-        System.out.println(csvHandler.getAllPatients());
+        this.currentPatient = csvHandler.getPatient(currentUserNid);
+        System.out.println(currentPatient.toCsvHeader());
+        System.out.println(currentPatient.toCsvString());
+        System.out.println(currentPatient.toString());
+
+        avatarText.setText(String.valueOf(this.currentPatient.getName().charAt(0)));
+        patientNameText.setText(this.currentPatient.getName());
+        nidText.setText(this.currentPatient.getNid());
+        genderText.setText(this.currentPatient.getGender());
+        ageText.setText(String.valueOf(this.currentPatient.getAge()));
+        nationalityText.setText(this.currentPatient.getNationality());
+        allergiesText.setText(String.join(", ", this.currentPatient.getAllergies()));
     }
 
     public void signOutAction(ActionEvent e) throws IOException {
@@ -99,15 +119,82 @@ public class PatientHomeController implements Initializable {
     }
 
     public void reqAppointmentAction(ActionEvent e) throws IOException {
+        String preferredDoc = preferredDocField.getText();
+        String reqMedicalDep = reqMedicalDepField.getText();
+        String preferredMedFacility = preferredMedFacilityField.getText();
+        String date = dateField.getText();
+        String details = detailsField.getText();
+        boolean isFollowUp = isFollowUpCheckBox.isSelected();
+
+        String datePattern = "^(0[1-9]|1\\d|2\\d|3[01])/(0[1-9]|1[0-2])/\\d{4}$";
+        Pattern regex = Pattern.compile(datePattern);
+
+        boolean preferredDocIsValid = preferredDoc.length() > 0;
+        boolean reqMedicalDepIsValid = reqMedicalDep.length() > 0;
+        boolean preferredMedFacilityIsValid = preferredMedFacility.length() > 0;
+        boolean dateIsValid = regex.matcher(date).matches();
+        boolean detailsIsValid = details.length() > 0;
+
+        String errorText = "";
+
+        if (!preferredDocIsValid)
+            errorText += "Enter your preferred doctor.\n";
+        if (!reqMedicalDepIsValid)
+            errorText += "Request a medical department.\n";
+        if (!preferredMedFacilityIsValid)
+            errorText += "Request a medical facility.\n";
+        if (!dateIsValid)
+            errorText += "Date should be in the format dd/mm/yyyy.\n";
+        if (!detailsIsValid)
+            errorText += "Please provide some details about your case.\n";
+
+        if (errorText.isBlank()) {
+            String patientNid = this.currentPatient.getNid();
+            AppointmentRequest appointmentReq = new AppointmentRequest(patientNid, preferredDoc, reqMedicalDep,
+                    preferredMedFacility,
+                    date, details, isFollowUp);
+            CsvHandler csvHandler = new CsvHandler();
+            csvHandler.addAppointmentReq(appointmentReq);
+
+            preferredDocField.clear();
+            reqMedicalDepField.clear();
+            preferredMedFacilityField.clear();
+            dateField.clear();
+            detailsField.clear();
+            isFollowUpCheckBox.setSelected(false);
+
+            Alert successAlert = new Alert(AlertType.INFORMATION);
+            successAlert.setHeaderText("Appointment request successfull");
+            successAlert.setContentText("Please check your mail periodically for a follow-up mail from us.");
+            successAlert.showAndWait();
+        } else {
+            Alert errorAlert = new Alert(AlertType.ERROR);
+            errorAlert.setHeaderText("Invalid input");
+            errorAlert.setContentText(errorText);
+            errorAlert.showAndWait();
+        }
     }
 
     public void phoneAction(ActionEvent e) throws IOException {
+        try {
+            URI telUri = new URI("tel:" + "+60" + this.currentPatient.getContactNumber());
+            Desktop.getDesktop().browse(telUri);
+        } catch (URISyntaxException | IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void emailAction(ActionEvent e) throws IOException {
+        try {
+            URI mailUri = new URI("mailto:" + this.currentPatient.getEmail());
+            Desktop.getDesktop().mail(mailUri);
+        } catch (URISyntaxException | IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void viewReportsAction(ActionEvent e) throws IOException {
+
     }
 
     public void updateInfoAction(ActionEvent e) throws IOException {

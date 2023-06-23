@@ -27,7 +27,7 @@ import utils.CsvHandler;
 import utils.MiscUtils;
 import utils.UserSession;
 
-public class SignUpController implements Initializable {
+public class UpdateInfoController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -36,7 +36,7 @@ public class SignUpController implements Initializable {
     private Button backButton;
 
     @FXML
-    private Button signUpButton;
+    private Button updateInfoButton;
 
     @FXML
     private TextField emailField;
@@ -48,45 +48,26 @@ public class SignUpController implements Initializable {
     private TextField confirmPasswordField;
 
     @FXML
-    private TextField nameField;
-
-    @FXML
-    private TextField ageField;
-
-    @FXML
     private TextField contactNumberField;
-
-    @FXML
-    private TextField nationalIdField;
 
     @FXML
     private TextField addressField;
 
-    @FXML
-    private TextField nationalityField;
-
-    @FXML
-    private ComboBox<String> genderBox;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ObservableList<String> genderList = FXCollections.observableArrayList("Male", "Female");
-        genderBox.setItems(genderList);
-        ageField.setTextFormatter(
-                new TextFormatter<>(change -> (change.getControlNewText().matches("([1-9][0-9]*)?")) ? change : null));
         contactNumberField.setTextFormatter(
                 new TextFormatter<>(change -> (change.getControlNewText().matches("([1-9][0-9]*)?")) ? change : null));
     }
 
     public void backAction(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("signIn.fxml"));
+        root = FXMLLoader.load(getClass().getResource("patientHome.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void signUpAction(ActionEvent e) throws IOException {
+    public void updateInfoAction(ActionEvent e) throws IOException {
         if (infoVerified()) {
             root = FXMLLoader.load(getClass().getResource("patientHome.fxml"));
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -98,59 +79,49 @@ public class SignUpController implements Initializable {
 
     private boolean infoVerified() {
         String email = emailField.getText();
+        String contactNumber = contactNumberField.getText();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
-        String name = nameField.getText();
-        String age = ageField.getText();
-        String contactNumber = contactNumberField.getText();
-        String nid = nationalIdField.getText();
         String address = addressField.getText();
-        String nationality = nationalityField.getText();
-        String gender = genderBox.getValue();
 
-        boolean emailIsValid = !email.isBlank() && email.contains("@");
+        CsvHandler csvHandler = new CsvHandler();
+        User currentUser = UserSession.getInstance().getUser();
+        Patient currentPatient = csvHandler.getPatient(currentUser.getNid());
+
+        if (email.isBlank())
+            email = currentPatient.getEmail();
+        if (contactNumber.isBlank())
+            contactNumber = currentPatient.getContactNumber();
+        if (password.isBlank() && confirmPassword.isBlank())
+            password = currentUser.getPassword();
+        if (address.isBlank())
+            address = currentPatient.getAddress();
+
+        boolean emailIsValid = email.contains("@");
+        boolean contactNumberIsValid = MiscUtils.isNumeric(contactNumber);
         boolean passwordIsValid = !password.isBlank() && password.length() > 6;
         boolean confirmPasswordIsValid = password.contentEquals(confirmPassword);
-        boolean nameIsValid = !name.isBlank() && name.length() > 6;
-        boolean ageIsValid = MiscUtils.isNumeric(age);
-        boolean contactNumberIsValid = MiscUtils.isNumeric(contactNumber);
-        boolean nidIsValid = !nid.isBlank();
-        boolean addressIsValid = !address.isBlank();
-        boolean nationalityIsValid = !nationality.isBlank();
-        boolean genderIsValid = gender != null;
 
         String errorText = "";
 
         if (!emailIsValid)
             errorText += "Email is invalid.\n";
+        if (!contactNumberIsValid)
+            errorText += "Contact number should only include integers.\n";
         if (!passwordIsValid)
             errorText += "Password should be longer than 6 characters.\n";
         if (!confirmPasswordIsValid)
             errorText += "Passwords do not match.\n";
-        if (!nameIsValid)
-            errorText += "Please enter your full name.\n";
-        if (!ageIsValid)
-            errorText += "Age should be an integer.\n";
-        if (!contactNumberIsValid)
-            errorText += "Contact number should only include integers.\n";
-        if (!nidIsValid)
-            errorText += "Enter valid NID.\n";
-        if (!addressIsValid)
-            errorText += "Current address cannot be blank.\n";
-        if (!nationalityIsValid)
-            errorText += "Enter a valid nationality. Eg: Malaysian\n";
-        if (!genderIsValid)
-            errorText += "Please select a gender.\n";
 
         if (errorText.isBlank()) {
-            User user = new User(nid, name, email, password, true);
-            Patient patient = new Patient(nid, name, gender, address, nationality, email, contactNumber,
-                    Integer.parseInt(age),
-                    new ArrayList<String>());
+            User user = new User(currentPatient.getNid(), currentPatient.getName(), email, password, true);
+            Patient patient = new Patient(currentPatient.getNid(), currentPatient.getName(), currentPatient.getGender(),
+                    address,
+                    currentPatient.getNationality(), email, contactNumber,
+                    currentPatient.getAge(),
+                    currentPatient.getAllergies());
 
             UserSession.getInstance().setUser(user);
-
-            CsvHandler csvHandler = new CsvHandler();
             csvHandler.addUser(user);
             csvHandler.addPatient(patient);
 
