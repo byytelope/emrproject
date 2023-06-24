@@ -25,6 +25,11 @@ public class AppointmentRequest extends BaseModel {
     public AppointmentRequest() {
     }
 
+    @Override
+    public String getFileName() {
+        return "appointmentReqs.csv";
+    }
+
     public void setPatientNid(String patientNid) {
         this.patientNid = patientNid;
     }

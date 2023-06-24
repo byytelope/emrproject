@@ -16,29 +16,26 @@ import models.Patient;
 import models.User;
 
 public class CsvHandler {
-    private static final String usersFileName = "users.csv";
-    private static final String patientsFileName = "patients.csv";
-    private static final String appointmentReqsFileName = "appointmentReqs.csv";
-
     public CsvHandler() {
     }
 
     // Wrapper methods
 
     public void addUser(User user) {
-        addOneCsv(usersFileName, new User().toCsvHeader(), user.toCsvString());
+        addOneCsv(user.getFileName(), user.toCsvHeader(), user.toCsvString());
     }
 
     public void addPatient(Patient patient) {
-        addOneCsv(patientsFileName, new Patient().toCsvHeader(), patient.toCsvString());
+        addOneCsv(patient.getFileName(), patient.toCsvHeader(), patient.toCsvString());
     }
 
     public void addAppointmentReq(AppointmentRequest appointmentReq) {
-        addOneCsv(appointmentReqsFileName, new AppointmentRequest().toCsvHeader(), appointmentReq.toCsvString());
+        addOneCsv(appointmentReq.getFileName(), appointmentReq.toCsvHeader(),
+                appointmentReq.toCsvString());
     }
 
     public Patient getPatient(String patientNid) {
-        return getCsv(patientsFileName, info -> {
+        List<Patient> patients = getCsv(new Patient().getFileName(), info -> {
             String nid = info[0];
             String name = info[1];
             String gender = info[2];
@@ -49,11 +46,17 @@ public class CsvHandler {
             int age = Integer.parseInt(info[7]);
             ArrayList<String> allergies = new ArrayList<>(Arrays.asList(info[8].split(",")));
             return new Patient(nid, name, gender, address, nationality, email, contactNumber, age, allergies);
-        }, (Patient patient) -> patient.getNid().equals(patientNid), false).get(0);
+        }, (Patient patient) -> patient.getNid().equals(patientNid), false);
+
+        if (patients.isEmpty()) {
+            return null;
+        }
+
+        return patients.get(0);
     }
 
     public List<Patient> getAllPatients() {
-        return getCsv(patientsFileName, info -> {
+        return getCsv(new Patient().getFileName(), info -> {
             String nid = info[0];
             String name = info[1];
             String gender = info[2];
@@ -68,7 +71,7 @@ public class CsvHandler {
     }
 
     public List<User> getAllUsers() {
-        return getCsv(usersFileName, info -> {
+        return getCsv(new User().getFileName(), info -> {
             String nid = info[0];
             String name = info[1];
             String email = info[2];
@@ -109,7 +112,7 @@ public class CsvHandler {
         return fields.toArray(new String[0]);
     }
 
-    private void addOneCsv(String fileName, String header, String data) {
+    private static void addOneCsv(String fileName, String header, String data) {
         FileWriter fileWriter = null;
 
         try {
@@ -130,7 +133,7 @@ public class CsvHandler {
         }
     }
 
-    private <T> List<T> getCsv(String fileName, Function<String[], T> createObjectFunc, Predicate<T> filter,
+    private static <T> List<T> getCsv(String fileName, Function<String[], T> createObjectFunc, Predicate<T> filter,
             boolean getAll) {
         List<T> objects = new ArrayList<>();
         BufferedReader bReader = null;
@@ -152,7 +155,6 @@ public class CsvHandler {
                     }
                 } else {
                     headerSkipped = true;
-                    // continue;
                 }
             }
         } catch (IOException e) {
@@ -167,5 +169,58 @@ public class CsvHandler {
         }
 
         return objects;
+    }
+
+    private static <T> void updateCsv(String fileName, Predicate<T> filter, Function<String[], T> createObjectFunc,
+            Function<T, String> toCsvStringFunc) {
+        List<T> objects = new ArrayList<>();
+        BufferedReader bReader = null;
+        FileWriter fileWriter = null;
+
+        try {
+            bReader = new BufferedReader(new FileReader(fileName));
+            String line;
+            boolean headerSkipped = false;
+
+            while ((line = bReader.readLine()) != null) {
+                if (headerSkipped) {
+                    String[] info = parseCsvLine(line);
+                    T object = createObjectFunc.apply(info);
+                    objects.add(object);
+                } else {
+                    headerSkipped = true;
+                }
+            }
+
+            for (T object : objects) {
+                if (filter.test(object)) {
+                    // Perform the necessary updates on the object
+                    // ...
+
+                    break;
+                }
+            }
+
+            fileWriter = new FileWriter(fileName);
+            fileWriter.write("header line");
+
+            for (T object : objects) {
+                fileWriter.write(System.lineSeparator());
+                fileWriter.write(toCsvStringFunc.apply(object));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bReader != null)
+                    bReader.close();
+                if (fileWriter != null) {
+                    fileWriter.flush();
+                    fileWriter.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

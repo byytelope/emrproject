@@ -1,6 +1,5 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Patient extends BaseModel {
@@ -30,6 +29,11 @@ public class Patient extends BaseModel {
     }
 
     public Patient() {
+    }
+
+    @Override
+    public String getFileName() {
+        return "patients.csv";
     }
 
     public void setName(String name) {

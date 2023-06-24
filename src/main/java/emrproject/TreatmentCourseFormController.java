@@ -16,6 +16,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import models.Patient;
+import utils.UserSession;
 
 public class TreatmentCourseFormController implements Initializable {
     private Stage stage;
@@ -51,7 +53,9 @@ public class TreatmentCourseFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        Patient currentPatient = UserSession.getInstance().getPatient();
+        patientNameText.setText(currentPatient.getName());
+        patientNidText.setText(currentPatient.getNid());
     }
 
     public void submitAction(ActionEvent e) throws IOException {
@@ -59,7 +63,7 @@ public class TreatmentCourseFormController implements Initializable {
     }
 
     public void backAction(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("signIn.fxml"));
+        root = FXMLLoader.load(getClass().getResource("doctorHome.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

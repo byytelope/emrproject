@@ -96,9 +96,6 @@ public class PatientHomeController implements Initializable {
         String currentUserNid = UserSession.getInstance().getUser().getNid();
         CsvHandler csvHandler = new CsvHandler();
         this.currentPatient = csvHandler.getPatient(currentUserNid);
-        System.out.println(currentPatient.toCsvHeader());
-        System.out.println(currentPatient.toCsvString());
-        System.out.println(currentPatient.toString());
 
         avatarText.setText(String.valueOf(this.currentPatient.getName().charAt(0)));
         patientNameText.setText(this.currentPatient.getName());
@@ -198,5 +195,10 @@ public class PatientHomeController implements Initializable {
     }
 
     public void updateInfoAction(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("updateInfoForm.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

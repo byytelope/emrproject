@@ -1,10 +1,12 @@
 package utils;
 
+import models.Patient;
 import models.User;
 
 public final class UserSession {
     private static volatile UserSession instance;
-    private User user;
+    private User user = null;
+    private Patient patient = null;
 
     private UserSession() {
     }
@@ -25,11 +27,20 @@ public final class UserSession {
         this.user = user;
     }
 
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
     public User getUser() {
-        return user;
+        return this.user;
+    }
+
+    public Patient getPatient() {
+        return this.patient;
     }
 
     public void clearInstance() {
-        user = null;
+        this.user = null;
+        this.patient = null;
     }
 }

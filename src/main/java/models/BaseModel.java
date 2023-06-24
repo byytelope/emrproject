@@ -3,7 +3,10 @@ package models;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class BaseModel {
+abstract public class BaseModel {
+    abstract public String getFileName();
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append("{");

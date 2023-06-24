@@ -2,7 +2,6 @@ package emrproject;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -21,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import models.Patient;
 import models.User;
 import utils.CsvHandler;
 import utils.UserSession;
@@ -77,8 +77,13 @@ public class SignInController implements Initializable {
             loginAlert.setContentText("Please enter valid email and password or sign up");
             loginAlert.showAndWait();
         } else {
+            Patient currentPatient = csvHandler.getPatient(currentUser.getNid());
             UserSession.getInstance().setUser(currentUser);
+            UserSession.getInstance().setPatient(currentPatient);
             System.out.println("Logged in");
+            System.out.println(currentUser);
+            System.out.println(currentPatient);
+
             root = currentUser.getIsPatient()
                     ? FXMLLoader.load(getClass().getResource("patientHome.fxml"))
                     : FXMLLoader.load(getClass().getResource("doctorHome.fxml"));

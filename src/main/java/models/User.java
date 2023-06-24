@@ -18,6 +18,11 @@ public class User extends BaseModel {
     public User() {
     }
 
+    @Override
+    public String getFileName() {
+        return "users.csv";
+    }
+
     public void setNid(String nid) {
         this.nid = nid;
     }

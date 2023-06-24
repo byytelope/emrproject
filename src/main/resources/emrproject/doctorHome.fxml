@@ -14,14 +14,9 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<BorderPane prefHeight="832.0" prefWidth="1280.0" stylesheets="@styles.css"
-   xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1"
-   fx:controller="emrproject.DoctorHomeController">
+<BorderPane prefHeight="832.0" prefWidth="1280.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emrproject.DoctorHomeController">
    <center>
-      <VBox alignment="TOP_CENTER" maxHeight="635.0" maxWidth="802.0" minWidth="802.0"
-         prefWidth="802.0" spacing="16.0"
-         style="-fx-background-color: #ECEEEF; -fx-background-radius: 24;"
-         BorderPane.alignment="CENTER_RIGHT">
+      <VBox fx:id="centerBox" alignment="TOP_CENTER" maxHeight="635.0" maxWidth="802.0" minWidth="802.0" prefWidth="802.0" spacing="16.0" style="-fx-background-color: #ECEEEF; -fx-background-radius: 24;" visible="false" BorderPane.alignment="CENTER_RIGHT">
          <padding>
             <Insets bottom="32.0" left="32.0" right="32.0" top="32.0" />
          </padding>
@@ -31,19 +26,16 @@
          <children>
             <HBox alignment="CENTER_LEFT" spacing="378.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Text fx:id="patientNameText1" strokeType="OUTSIDE" strokeWidth="0.0"
-                     text="Recent Analysis Reports">
+                  <Text fx:id="patientNameText1" strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Analysis Reports">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Text>
                   <HBox spacing="8.0">
                      <children>
-                        <Button id="icon-text-button" fx:id="newAnalysisButton" graphicTextGap="8.0"
-                           mnemonicParsing="false" onAction="#phoneAction" text="New Analysis">
+                        <Button id="icon-text-button" fx:id="newAnalysisButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#phoneAction" text="New Analysis">
                            <graphic>
-                              <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true"
-                                 preserveRatio="true">
+                              <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@add.png" />
                                  </image>
@@ -55,24 +47,19 @@
                </children>
             </HBox>
             <ListView prefHeight="200.0" />
-            <Line endX="100.0" startX="-702.1365356445312" startY="-1.2428239583969116"
-               stroke="#bfc8cb" />
+            <Line endX="100.0" startX="-702.1365356445312" startY="-1.2428239583969116" stroke="#bfc8cb" />
             <HBox alignment="CENTER_LEFT" spacing="355.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Text fx:id="patientNameText11" strokeType="OUTSIDE" strokeWidth="0.0"
-                     text="Recent Diagnosis Reports">
+                  <Text fx:id="patientNameText11" strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Diagnosis Reports">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Text>
                   <HBox spacing="8.0">
                      <children>
-                        <Button id="icon-text-button" fx:id="newDiagnosisButton"
-                           graphicTextGap="8.0" mnemonicParsing="false" onAction="#phoneAction"
-                           text="New DIagnosis">
+                        <Button id="icon-text-button" fx:id="newDiagnosisButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#phoneAction" text="New DIagnosis">
                            <graphic>
-                              <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true"
-                                 preserveRatio="true">
+                              <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@add.png" />
                                  </image>
@@ -88,15 +75,11 @@
       </VBox>
    </center>
    <left>
-      <VBox alignment="TOP_CENTER" maxHeight="635.0" maxWidth="300.0" prefWidth="300.0"
-         spacing="16.0" style="-fx-background-color: #ECEEEF; -fx-background-radius: 24;"
-         BorderPane.alignment="CENTER">
+      <VBox fx:id="sideBox" alignment="TOP_CENTER" maxHeight="635.0" maxWidth="300.0" prefWidth="300.0" spacing="16.0" style="-fx-background-color: #ECEEEF; -fx-background-radius: 24;" visible="false" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" maxWidth="112.0" prefHeight="112.0" prefWidth="112.0"
-               style="-fx-background-color: #00687B; -fx-background-radius: 100px;">
+            <HBox alignment="CENTER" maxWidth="112.0" prefHeight="112.0" prefWidth="112.0" style="-fx-background-color: #00687B; -fx-background-radius: 100px;">
                <children>
-                  <Text fx:id="avatarText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                     text="P">
+                  <Text fx:id="avatarText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="P">
                      <font>
                         <Font name="System Bold" size="57.0" />
                      </font>
@@ -119,29 +102,23 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" | " />
                   <Text fx:id="ageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Age" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" | " />
-                  <Text fx:id="nationalityText" strokeType="OUTSIDE" strokeWidth="0.0"
-                     text="Nationality" />
+                  <Text fx:id="nationalityText" strokeType="OUTSIDE" strokeWidth="0.0" text="Nationality" />
                </children>
             </TextFlow>
-            <HBox alignment="CENTER" maxWidth="300.0" prefHeight="40.0" prefWidth="0.0"
-               spacing="8.0">
+            <HBox alignment="CENTER" maxWidth="300.0" prefHeight="40.0" prefWidth="0.0" spacing="8.0">
                <children>
-                  <Button id="icon-text-button" fx:id="phoneButton" graphicTextGap="8.0"
-                     minWidth="122.0" mnemonicParsing="false" onAction="#phoneAction" text="Phone">
+                  <Button id="icon-text-button" fx:id="phoneButton" graphicTextGap="8.0" minWidth="122.0" mnemonicParsing="false" onAction="#phoneAction" text="Phone">
                      <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true"
-                           preserveRatio="true">
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@phone.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button id="icon-text-button" fx:id="emailButton" graphicTextGap="8.0"
-                     minWidth="122.0" mnemonicParsing="false" onAction="#emailAction" text="Email">
+                  <Button id="icon-text-button" fx:id="emailButton" graphicTextGap="8.0" minWidth="122.0" mnemonicParsing="false" onAction="#emailAction" text="Email">
                      <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true"
-                           preserveRatio="true">
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@email.png" />
                            </image>
@@ -150,8 +127,7 @@
                   </Button>
                </children>
             </HBox>
-            <Button fx:id="viewAllReportsButton" graphicTextGap="8.0" mnemonicParsing="false"
-               onAction="#viewReportsAction" text="View All Reports">
+            <Button fx:id="viewAllReportsButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#viewReportsAction" text="View All Reports">
                <VBox.margin>
                   <Insets left="24.0" right="24.0" />
                </VBox.margin>
@@ -159,8 +135,7 @@
             <VBox spacing="8.0" VBox.vgrow="ALWAYS">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Allergies" />
-                  <Text fx:id="allergiesText" fill="#00687b" strokeType="OUTSIDE" strokeWidth="0.0"
-                     text="Allergy 1, Allergy 2, Allergy 3, Allergy 4" />
+                  <Text fx:id="allergiesText" fill="#00687b" strokeType="OUTSIDE" strokeWidth="0.0" text="Allergy 1, Allergy 2, Allergy 3, Allergy 4" />
                </children>
                <VBox.margin>
                   <Insets left="24.0" right="24.0" top="24.0" />
@@ -168,12 +143,9 @@
             </VBox>
             <HBox alignment="TOP_CENTER" fillHeight="false" prefHeight="56.0">
                <children>
-                  <Button id="fab" fx:id="newTreatmentCourseButton" graphicTextGap="8.0"
-                     mnemonicParsing="false" onAction="#newTreatmentCourseAction"
-                     text="New Treatment Course" HBox.hgrow="NEVER">
+                  <Button id="fab" fx:id="newTreatmentCourseButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#newTreatmentCourseAction" text="New Treatment Course" HBox.hgrow="NEVER">
                      <graphic>
-                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                           preserveRatio="true">
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@add.png" />
                            </image>
@@ -194,11 +166,9 @@
    <top>
       <HBox alignment="CENTER_LEFT" spacing="200.0" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <Button id="icon-text-button" fx:id="signOutButton" graphicTextGap="8.0"
-               mnemonicParsing="false" onAction="#signOutAction" text="Sign Out">
+            <Button id="icon-text-button" fx:id="signOutButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#signOutAction" text="Sign Out">
                <graphic>
-                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true"
-                     preserveRatio="true">
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@logout.png" />
                      </image>

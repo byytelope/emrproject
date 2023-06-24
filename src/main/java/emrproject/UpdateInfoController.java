@@ -2,11 +2,8 @@ package emrproject;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
@@ -86,7 +82,7 @@ public class UpdateInfoController implements Initializable {
 
         CsvHandler csvHandler = new CsvHandler();
         User currentUser = UserSession.getInstance().getUser();
-        Patient currentPatient = csvHandler.getPatient(currentUser.getNid());
+        Patient currentPatient = UserSession.getInstance().getPatient();
 
         if (email.isBlank())
             email = currentPatient.getEmail();
