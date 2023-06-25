@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -45,12 +46,6 @@ public class DoctorHomeController implements Initializable {
 
     @FXML
     private Button newTreatmentCourseButton;
-
-    @FXML
-    private Button newAnalysisButton;
-
-    @FXML
-    private Button newDiagnosisButton;
 
     @FXML
     private Button viewAllReportsButton;
@@ -83,14 +78,12 @@ public class DoctorHomeController implements Initializable {
     private VBox centerBox;
 
     @FXML
-    private ListView<String> analysisReports;
-
-    @FXML
-    private ListView<String> diagnosisReports;
+    private ListView<String> appointmentRequests;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        centerBox.setVisible(false);
+        sideBox.setVisible(false);
     }
 
     public void signOutAction(ActionEvent e) throws IOException {
@@ -123,6 +116,27 @@ public class DoctorHomeController implements Initializable {
     }
 
     public void viewReportsAction(ActionEvent e) throws IOException {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setHeaderText("Select Report Type");
+        alert.setContentText("Please select which type of report you want to view.");
+
+        ButtonType analysisButton = new ButtonType("Analysis Reports");
+        ButtonType diagnosisButton = new ButtonType("Diagnosis Reports");
+
+        alert.getButtonTypes().setAll(analysisButton, diagnosisButton);
+        alert.showAndWait().ifPresent(response -> {
+            try {
+                // TODO: change form to list
+                root = FXMLLoader.load(getClass()
+                        .getResource(response == analysisButton ? "analysisForm.fxml" : "diagnosisList.fxml"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        });
     }
 
     public void newTreatmentCourseAction(ActionEvent e) throws IOException {

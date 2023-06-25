@@ -30,34 +30,6 @@ public class AppointmentRequest extends BaseModel {
         return "appointmentReqs.csv";
     }
 
-    public void setPatientNid(String patientNid) {
-        this.patientNid = patientNid;
-    }
-
-    public void setPreferredDoctor(String preferredDoctor) {
-        this.preferredDoctor = preferredDoctor;
-    }
-
-    public void setRequestedMedicalDept(String requestedMedicalDept) {
-        this.requestedMedicalDept = requestedMedicalDept;
-    }
-
-    public void setPreferredMedicalFacility(String preferredMedicalFacility) {
-        this.preferredMedicalFacility = preferredMedicalFacility;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
-    public void setIsFollowUp(boolean isFollowUp) {
-        this.isFollowUp = isFollowUp;
-    }
-
     public String getPatientNid() {
         return this.patientNid;
     }
@@ -84,5 +56,33 @@ public class AppointmentRequest extends BaseModel {
 
     public boolean getIsFollowUp() {
         return this.isFollowUp;
+    }
+
+    public void setPatientNid(String patientNid) {
+        this.patientNid = patientNid;
+    }
+
+    public void setPreferredDoctor(String preferredDoctor) {
+        this.preferredDoctor = preferredDoctor;
+    }
+
+    public void setRequestedMedicalDept(String requestedMedicalDept) {
+        this.requestedMedicalDept = requestedMedicalDept;
+    }
+
+    public void setPreferredMedicalFacility(String preferredMedicalFacility) {
+        this.preferredMedicalFacility = preferredMedicalFacility;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public void setIsFollowUp(boolean isFollowUp) {
+        this.isFollowUp = isFollowUp;
     }
 }

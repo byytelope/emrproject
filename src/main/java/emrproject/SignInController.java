@@ -47,6 +47,7 @@ public class SignInController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
     }
 
     public void switchToSignUp(ActionEvent e) throws IOException {

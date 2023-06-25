@@ -6,7 +6,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +25,7 @@ import javafx.stage.Stage;
 import models.AppointmentRequest;
 import models.Patient;
 import utils.CsvHandler;
+import utils.MiscUtils;
 import utils.UserSession;
 
 public class PatientHomeController implements Initializable {
@@ -122,14 +122,10 @@ public class PatientHomeController implements Initializable {
         String date = dateField.getText();
         String details = detailsField.getText();
         boolean isFollowUp = isFollowUpCheckBox.isSelected();
-
-        String datePattern = "^(0[1-9]|1\\d|2\\d|3[01])/(0[1-9]|1[0-2])/\\d{4}$";
-        Pattern regex = Pattern.compile(datePattern);
-
         boolean preferredDocIsValid = preferredDoc.length() > 0;
         boolean reqMedicalDepIsValid = reqMedicalDep.length() > 0;
         boolean preferredMedFacilityIsValid = preferredMedFacility.length() > 0;
-        boolean dateIsValid = regex.matcher(date).matches();
+        boolean dateIsValid = MiscUtils.isDate(date);
         boolean detailsIsValid = details.length() > 0;
 
         String errorText = "";

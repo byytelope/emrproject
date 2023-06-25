@@ -12,7 +12,10 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import models.AppointmentRequest;
+import models.BaseAnalysis;
+import models.Diagnosis;
 import models.Patient;
+import models.TreatmentCourse;
 import models.User;
 
 public class CsvHandler {
@@ -32,6 +35,21 @@ public class CsvHandler {
     public void addAppointmentReq(AppointmentRequest appointmentReq) {
         addOneCsv(appointmentReq.getFileName(), appointmentReq.toCsvHeader(),
                 appointmentReq.toCsvString());
+    }
+
+    public void addTreatmentCourse(TreatmentCourse treatmentCourse) {
+        addOneCsv(treatmentCourse.getFileName(), treatmentCourse.toCsvHeader(),
+                treatmentCourse.toCsvString());
+    }
+
+    public void addDiagnosis(Diagnosis diagnosis) {
+        addOneCsv(diagnosis.getFileName(), diagnosis.toCsvHeader(),
+                diagnosis.toCsvString());
+    }
+
+    public void addAnalysis(BaseAnalysis analysis) {
+        addOneCsv(analysis.getFileName(), analysis.toCsvHeader(),
+                analysis.toCsvString());
     }
 
     public Patient getPatient(String patientNid) {

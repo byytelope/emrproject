@@ -36,42 +36,6 @@ public class Patient extends BaseModel {
         return "patients.csv";
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setNid(String nid) {
-        this.nid = nid;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setAllergies(List<String> allergies) {
-        this.allergies = allergies;
-    }
-
     public String getName() {
         return this.name;
     }
@@ -106,5 +70,41 @@ public class Patient extends BaseModel {
 
     public List<String> getAllergies() {
         return this.allergies;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNid(String nid) {
+        this.nid = nid;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setAllergies(List<String> allergies) {
+        this.allergies = allergies;
     }
 }

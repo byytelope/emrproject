@@ -1,3 +1,2 @@
 patientNid,preferredDoctor,requestedMedicalDept,preferredMedicalFacility,date,details,isFollowUp
 "A123456","Dr. Ibrahim Ali","Cardiology","Sunway Medical Center","12/03/2023","This is a checkup requested by the doctor.","true"
-"A123456","Drajsdja","kjahdjk","djkasdjkh","12/04/2022","sjfbakjsdfabjk","false"

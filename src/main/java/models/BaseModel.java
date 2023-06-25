@@ -11,25 +11,29 @@ abstract public class BaseModel {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append("{");
 
-        Field[] fields = getClass().getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            fields[i].setAccessible(true);
-            sb.append(fields[i].getName()).append("=");
+        Class<?> currentClass = this.getClass().getSuperclass();
+        for (int i = 0; i < 2; i++) {
+            Field[] fields = currentClass.getDeclaredFields();
+            for (int j = 0; j < fields.length; j++) {
+                fields[j].setAccessible(true);
+                sb.append(fields[j].getName()).append("=");
 
-            try {
-                Object value = fields[i].get(this);
-                if (value instanceof String) {
-                    sb.append("\"").append(value).append("\"");
-                } else {
-                    sb.append(value);
+                try {
+                    Object value = fields[j].get(this);
+                    if (value instanceof String) {
+                        sb.append("\"").append(value).append("\"");
+                    } else {
+                        sb.append(value);
+                    }
+                } catch (IllegalAccessException e) {
+                    sb.append("N/A");
                 }
-            } catch (IllegalAccessException e) {
-                sb.append("N/A");
-            }
 
-            if (i < fields.length - 1) {
-                sb.append(", ");
+                if (j < fields.length - 1) {
+                    sb.append(", ");
+                }
             }
+            currentClass = this.getClass();
         }
 
         sb.append("}");
@@ -39,18 +43,18 @@ abstract public class BaseModel {
     public String toCsvHeader() {
         StringBuilder sb = new StringBuilder();
 
-        try {
-            Field[] fields = this.getClass().getDeclaredFields();
+        Class<?> currentClass = this.getClass().getSuperclass();
+        for (int i = 0; i < 2; i++) {
+            Field[] fields = currentClass.getDeclaredFields();
             for (Field field : fields) {
                 sb.append(field.getName()).append(",");
             }
+            currentClass = this.getClass();
+        }
 
-            if (sb.length() > 0) {
-                sb.setLength(sb.length() - 1);
-                sb.append("\n");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
+            sb.append("\n");
         }
 
         return sb.toString();
@@ -59,41 +63,40 @@ abstract public class BaseModel {
     public String toCsvString() {
         StringBuilder sb = new StringBuilder();
 
-        try {
-            Field[] fields = this.getClass().getDeclaredFields();
+        Class<?> currentClass = this.getClass().getSuperclass();
+        for (int i = 0; i < 2; i++) {
+            Field[] fields = currentClass.getDeclaredFields();
             for (Field field : fields) {
                 field.setAccessible(true);
-                Object value = field.get(this);
-                String formattedValue = null;
+                try {
+                    Object value = field.get(this);
+                    String formattedValue = null;
 
-                if (value != null) {
-                    if (value instanceof List) {
-                        @SuppressWarnings("unchecked")
-                        List<String> listValue = (List<String>) value;
-                        formattedValue = '"' + String.join(",", listValue) + '"';
+                    if (value != null) {
+                        if (value instanceof List) {
+                            @SuppressWarnings("unchecked")
+                            List<String> listValue = (List<String>) value;
+                            formattedValue = '"' + String.join(",", listValue) + '"';
+                        } else {
+                            formattedValue = '"' + value.toString() + '"';
+                        }
                     } else {
-                        formattedValue = '"' + value.toString() + '"';
+                        formattedValue = "";
                     }
-                } else {
-                    formattedValue = "";
+
+                    sb.append(formattedValue).append(",");
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
-
-                sb.append(formattedValue).append(",");
             }
+            currentClass = this.getClass();
+        }
 
-            if (sb.length() > 0) {
-                sb.setLength(sb.length() - 1);
-                sb.append("\n");
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
+            sb.append("\n");
         }
 
         return sb.toString();
     }
 }
-
-// if (value instanceof List) {
-// formattedValue = '"' + String.join(",", (List<String>) value);
-// } else {
-// }

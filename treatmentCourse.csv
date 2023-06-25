@@ -1,0 +1,2 @@
+patientNid,diagnosis,treatmentType,startDate,endDate,results
+"A123456","Leukemia","Radiation Therapy","26/06/2023","01/07/2023","Results bla bla bla bla"

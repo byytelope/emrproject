@@ -11,12 +11,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Patient;
+import models.TreatmentCourse;
+import utils.CsvHandler;
+import utils.MiscUtils;
 import utils.UserSession;
 
 public class TreatmentCourseFormController implements Initializable {
@@ -59,7 +64,57 @@ public class TreatmentCourseFormController implements Initializable {
     }
 
     public void submitAction(ActionEvent e) throws IOException {
+        if (infoVerified()) {
+            root = FXMLLoader.load(getClass().getResource("doctorHome.fxml"));
+            stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
 
+    private boolean infoVerified() {
+        String diagnosis = diagnosisField.getText();
+        String treatmentType = treatmentTypeField.getText();
+        String startDate = startDateField.getText();
+        String endDate = endDateField.getText();
+        String results = resultsField.getText();
+
+        CsvHandler csvHandler = new CsvHandler();
+
+        boolean diagnosisIsValid = !diagnosis.isEmpty();
+        boolean treatmentTypeIsValid = !treatmentType.isEmpty();
+        boolean startDateIsValid = MiscUtils.isDate(startDate);
+        boolean endDateIsValid = MiscUtils.isDate(endDate);
+        boolean resultsIsValid = !results.isEmpty();
+
+        String errorText = "";
+
+        if (!diagnosisIsValid)
+            errorText += "Provide a diagnosis.\n";
+        if (!treatmentTypeIsValid)
+            errorText += "Provide a treatment type.\n";
+        if (!startDateIsValid)
+            errorText += "Start date must be in the form dd/mm/yyyy.\n";
+        if (!endDateIsValid)
+            errorText += "End date must be in the form dd/mm/yyyy.\n";
+        if (!resultsIsValid)
+            errorText += "Provide a results.\n";
+
+        if (errorText.isBlank()) {
+            TreatmentCourse treatmentCourse = new TreatmentCourse(UserSession.getInstance().getPatient().getNid(),
+                    diagnosis, treatmentType, startDate, endDate, results);
+            csvHandler.addTreatmentCourse(treatmentCourse);
+
+            return true;
+        } else {
+            Alert errorAlert = new Alert(AlertType.ERROR);
+            errorAlert.setHeaderText("Invalid input");
+            errorAlert.setContentText(errorText);
+            errorAlert.showAndWait();
+
+            return false;
+        }
     }
 
     public void backAction(ActionEvent e) throws IOException {

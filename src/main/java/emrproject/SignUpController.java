@@ -112,8 +112,8 @@ public class SignUpController implements Initializable {
         boolean passwordIsValid = !password.isBlank() && password.length() > 6;
         boolean confirmPasswordIsValid = password.contentEquals(confirmPassword);
         boolean nameIsValid = !name.isBlank() && name.length() > 6;
-        boolean ageIsValid = MiscUtils.isNumeric(age);
-        boolean contactNumberIsValid = MiscUtils.isNumeric(contactNumber);
+        boolean ageIsValid = MiscUtils.isInteger(age);
+        boolean contactNumberIsValid = MiscUtils.isInteger(contactNumber);
         boolean nidIsValid = !nid.isBlank();
         boolean addressIsValid = !address.isBlank();
         boolean nationalityIsValid = !nationality.isBlank();

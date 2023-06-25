@@ -94,7 +94,7 @@ public class UpdateInfoController implements Initializable {
             address = currentPatient.getAddress();
 
         boolean emailIsValid = email.contains("@");
-        boolean contactNumberIsValid = MiscUtils.isNumeric(contactNumber);
+        boolean contactNumberIsValid = MiscUtils.isInteger(contactNumber);
         boolean passwordIsValid = !password.isBlank() && password.length() > 6;
         boolean confirmPasswordIsValid = password.contentEquals(confirmPassword);
 
@@ -110,16 +110,14 @@ public class UpdateInfoController implements Initializable {
             errorText += "Passwords do not match.\n";
 
         if (errorText.isBlank()) {
-            User user = new User(currentPatient.getNid(), currentPatient.getName(), email, password, true);
-            Patient patient = new Patient(currentPatient.getNid(), currentPatient.getName(), currentPatient.getGender(),
-                    address,
-                    currentPatient.getNationality(), email, contactNumber,
-                    currentPatient.getAge(),
-                    currentPatient.getAllergies());
+            currentUser.setEmail(email);
+            currentUser.setPassword(password);
+            currentPatient.setEmail(email);
+            currentPatient.setContactNumber(contactNumber);
 
-            UserSession.getInstance().setUser(user);
-            csvHandler.addUser(user);
-            csvHandler.addPatient(patient);
+            UserSession.getInstance().setUser(currentUser);
+            csvHandler.updateUser(currentUser);
+            csvHandler.updatePatient(currentPatient);
 
             return true;
         } else {
