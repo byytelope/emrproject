@@ -1,0 +1,2 @@
+patientNid,labId,labName,labAddress,date,analysisType,sodium,potassium,urea,creatinine,glucose,biluribin,ast,alt
+"A123456","LAB01","Example Lab 1","Lab 1, Street, Kuala Lumpur","12/03/2023","BIOBLOOD","23.0","15.0","0.9","12.0","25.0","123.0","7.5","2.3"

@@ -13,6 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -20,7 +22,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.BaseAnalysis.AnalysisType;
+import models.BioBloodAnalysis;
+import models.BloodAnalysis;
 import models.Patient;
+import models.UrineAnalysis;
+import utils.CsvHandler;
+import utils.MiscUtils;
 import utils.UserSession;
 
 public class AnalysisFormController implements Initializable {
@@ -193,6 +200,175 @@ public class AnalysisFormController implements Initializable {
     }
 
     private boolean formVerified() {
-        return true;
+        String date = dateField.getText();
+        String labId = labIdField.getText();
+        String labName = labNameField.getText();
+        String labAddress = labAddressField.getText();
+        AnalysisType analysisType = analysisTypeBox.getValue();
+
+        // Bio-blood analysis fields
+        String sodiumText = sodiumField.getText();
+        String potassiumText = potassiumField.getText();
+        String ureaText = ureaField.getText();
+        String creatinineText = creatinineField.getText();
+        String glucoseText = glucoseField.getText();
+        String biluribinText = biluribinField.getText();
+        String astText = astField.getText();
+        String altText = altField.getText();
+
+        // Urine analysis fields
+        String clarityText = clarityField.getText();
+        String crystalsText = crystalsField.getText();
+        String bacteriaText = bacteriaField.getText();
+        String ketoneText = ketoneField.getText();
+        String proteinText = proteinField.getText();
+        String clinitestText = clinitestField.getText();
+        String whiteBloodCellUText = whiteBloodCellUField.getText();
+        String redBloodCellUText = redBloodCellUField.getText();
+
+        // Blood analysis fields
+        String whiteBloodCellBText = whiteBloodCellBField.getText();
+        String redBloodCellBText = redBloodCellBField.getText();
+        String haemoglobinText = haemoglobinField.getText();
+        String lymphocyteText = lymphocyteField.getText();
+
+        Patient currentPatient = UserSession.getInstance().getPatient();
+        CsvHandler csvHandler = new CsvHandler();
+
+        if (analysisType == AnalysisType.BIOBLOOD) {
+            String errorText = "";
+
+            boolean sodiumIsValid = MiscUtils.isDouble(sodiumText);
+            boolean potassiumIsValid = MiscUtils.isDouble(potassiumText);
+            boolean ureaIsValid = MiscUtils.isDouble(ureaText);
+            boolean creatinineIsValid = MiscUtils.isDouble(creatinineText);
+            boolean glucoseIsValid = MiscUtils.isDouble(glucoseText);
+            boolean biluribinIsValid = MiscUtils.isDouble(biluribinText);
+            boolean astIsValid = MiscUtils.isDouble(astText);
+            boolean altIsValid = MiscUtils.isDouble(altText);
+
+            if (!sodiumIsValid)
+                errorText += "Enter a number value for sodium.";
+            if (!potassiumIsValid)
+                errorText += "Enter a number value for potassium.";
+            if (!ureaIsValid)
+                errorText += "Enter a number value for urea.";
+            if (!creatinineIsValid)
+                errorText += "Enter a number value for creatinine.";
+            if (!glucoseIsValid)
+                errorText += "Enter a number value for glucose.";
+            if (!biluribinIsValid)
+                errorText += "Enter a number value for biluribin.";
+            if (!astIsValid)
+                errorText += "Enter a number value for AST.";
+            if (!altIsValid)
+                errorText += "Enter a number value for ALT.";
+
+            if (errorText.isBlank()) {
+                BioBloodAnalysis bioBloodAnalysis = new BioBloodAnalysis(currentPatient.getNid(), labId, labName,
+                        labAddress, date, Double.parseDouble(sodiumText),
+                        Double.parseDouble(potassiumText),
+                        Double.parseDouble(ureaText),
+                        Double.parseDouble(creatinineText),
+                        Double.parseDouble(glucoseText),
+                        Double.parseDouble(biluribinText),
+                        Double.parseDouble(astText),
+                        Double.parseDouble(altText));
+
+                csvHandler.addAnalysis(bioBloodAnalysis);
+                return true;
+            } else {
+                Alert errorAlert = new Alert(AlertType.ERROR);
+                errorAlert.setHeaderText("Invalid input");
+                errorAlert.setContentText(errorText);
+                errorAlert.showAndWait();
+
+                return false;
+            }
+
+        } else if (analysisType == AnalysisType.BLOOD) {
+            String errorText = "";
+
+            boolean whiteBloodCellBIsValid = MiscUtils.isDouble(whiteBloodCellBText);
+            boolean redBloodCellBIsValid = MiscUtils.isDouble(redBloodCellBText);
+            boolean haemoglobinIsValid = MiscUtils.isDouble(haemoglobinText);
+            boolean lymphocyteIsValid = MiscUtils.isDouble(lymphocyteText);
+
+            if (!whiteBloodCellBIsValid)
+                errorText += "Enter a number value for WBC.";
+            if (!redBloodCellBIsValid)
+                errorText += "Enter a number value for RBC.";
+            if (!haemoglobinIsValid)
+                errorText += "Enter a number value for haemoglobin.";
+            if (!lymphocyteIsValid)
+                errorText += "Enter a number value for lymphocytes.";
+
+            if (errorText.isBlank()) {
+                BloodAnalysis bloodAnalysis = new BloodAnalysis(currentPatient.getNid(), labId, labName, labAddress,
+                        date, Double.parseDouble(whiteBloodCellBText),
+                        Double.parseDouble(redBloodCellBText),
+                        Double.parseDouble(haemoglobinText),
+                        Double.parseDouble(lymphocyteText));
+
+                csvHandler.addAnalysis(bloodAnalysis);
+                return true;
+            } else {
+                Alert errorAlert = new Alert(AlertType.ERROR);
+                errorAlert.setHeaderText("Invalid input");
+                errorAlert.setContentText(errorText);
+                errorAlert.showAndWait();
+
+                return false;
+            }
+        } else if (analysisType == AnalysisType.URINE) {
+            String errorText = "";
+
+            boolean clarityIsValid = !clarityText.isBlank();
+            boolean crystalsIsValid = !crystalsText.isBlank();
+            boolean bacteriaIsValid = !bacteriaText.isBlank();
+            boolean ketoneIsValid = MiscUtils.isDouble(ketoneText);
+            boolean proteinIsValid = MiscUtils.isDouble(proteinText);
+            boolean clinitestIsValid = MiscUtils.isDouble(clinitestText);
+            boolean whiteBloodCellUIsValid = MiscUtils.isDouble(whiteBloodCellUText);
+            boolean redBloodCellUIsValid = MiscUtils.isDouble(redBloodCellUText);
+
+            if (clarityIsValid)
+                errorText += "Clarity description cannot be empty.";
+            if (crystalsIsValid)
+                errorText += "Crystals description cannot be empty.";
+            if (bacteriaIsValid)
+                errorText += "Bacteria field cannot be empty.";
+            if (ketoneIsValid)
+                errorText += "Enter a number value for ketone.";
+            if (proteinIsValid)
+                errorText += "Enter a number value for protein.";
+            if (clinitestIsValid)
+                errorText += "Enter a number value for clinitest.";
+            if (whiteBloodCellUIsValid)
+                errorText += "Enter a number value for WBC.";
+            if (redBloodCellUIsValid)
+                errorText += "Enter a number value for RBC.";
+
+            if (errorText.isBlank()) {
+                UrineAnalysis urineAnalysis = new UrineAnalysis(errorText, labId, labName, labAddress, date,
+                        clarityText, crystalsText, bacteriaText, Double.parseDouble(ketoneText),
+                        Double.parseDouble(proteinText),
+                        Double.parseDouble(clinitestText),
+                        Double.parseDouble(whiteBloodCellUText),
+                        Double.parseDouble(redBloodCellUText));
+
+                csvHandler.addAnalysis(urineAnalysis);
+                return true;
+            } else {
+                Alert errorAlert = new Alert(AlertType.ERROR);
+                errorAlert.setHeaderText("Invalid input");
+                errorAlert.setContentText(errorText);
+                errorAlert.showAndWait();
+
+                return false;
+            }
+        }
+
+        return false;
     }
 }

@@ -82,12 +82,16 @@ public class DoctorHomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        centerBox.setVisible(false);
-        sideBox.setVisible(false);
+        Patient currentPatient = UserSession.getInstance().getPatient();
+        if (currentPatient != null) {
+            setPatient(currentPatient);
+        } else {
+            centerBox.setVisible(false);
+            sideBox.setVisible(false);
+        }
     }
 
     public void signOutAction(ActionEvent e) throws IOException {
-        System.out.println("Logged out");
         root = FXMLLoader.load(getClass().getResource("signIn.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -152,22 +156,27 @@ public class DoctorHomeController implements Initializable {
         Patient patient = csvHandler.getPatient(searchField.getText());
 
         if (patient != null) {
-            UserSession.getInstance().setPatient(patient);
-            avatarText.setText(String.valueOf(patient.getName().charAt(0)));
-            patientNameText.setText(patient.getName());
-            nidText.setText(patient.getNid());
-            genderText.setText(patient.getGender());
-            ageText.setText(String.valueOf(patient.getAge()));
-            nationalityText.setText(patient.getNationality());
-            allergiesText.setText(String.join(", ", patient.getAllergies()));
-
-            sideBox.setVisible(true);
-            centerBox.setVisible(true);
+            setPatient(patient);
         } else {
             Alert errorAlert = new Alert(AlertType.ERROR);
             errorAlert.setHeaderText("Patient not found");
             errorAlert.setContentText("Please enter a valid NID for a patient who has signed up for the service.");
             errorAlert.showAndWait();
         }
+    }
+
+    private void setPatient(Patient patient) {
+        UserSession.getInstance().setPatient(patient);
+        avatarText.setText(String.valueOf(patient.getName().charAt(0)));
+        patientNameText.setText(patient.getName());
+        nidText.setText(patient.getNid());
+        genderText.setText(patient.getGender());
+        ageText.setText(String.valueOf(patient.getAge()));
+        nationalityText.setText(patient.getNationality());
+        allergiesText.setText(String.join(", ", patient.getAllergies()));
+
+        sideBox.setVisible(true);
+        centerBox.setVisible(true);
+
     }
 }

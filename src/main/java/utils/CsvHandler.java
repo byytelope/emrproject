@@ -1,6 +1,7 @@
 package utils;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,6 +14,7 @@ import java.util.function.Predicate;
 
 import models.AppointmentRequest;
 import models.BaseAnalysis;
+import models.BaseModel;
 import models.Diagnosis;
 import models.Patient;
 import models.TreatmentCourse;
@@ -99,12 +101,30 @@ public class CsvHandler {
         }, user -> true, true);
     }
 
-    public void updateUser(User user) {
-
+    public void updateUser(User updatedUser) {
+        updateCsv(updatedUser.getFileName(), info -> {
+            String nid = info[0];
+            String name = info[1];
+            String email = info[2];
+            String password = info[3];
+            boolean isPatient = Boolean.parseBoolean(info[4]);
+            return new User(nid, name, email, password, isPatient);
+        }, user -> ((User) user).getNid().equals(updatedUser.getNid()), updatedUser);
     }
 
-    public void updatePatient(Patient patient) {
-
+    public void updatePatient(Patient updatedPatient) {
+        updateCsv(updatedPatient.getFileName(), info -> {
+            String nid = info[0];
+            String name = info[1];
+            String gender = info[2];
+            String address = info[3];
+            String nationality = info[4];
+            String email = info[5];
+            String contactNumber = info[6];
+            int age = Integer.parseInt(info[7]);
+            ArrayList<String> allergies = new ArrayList<>(Arrays.asList(info[8].split(",")));
+            return new Patient(nid, name, gender, address, nationality, email, contactNumber, age, allergies);
+        }, patient -> ((Patient) patient).getNid().equals(updatedPatient.getNid()), updatedPatient);
     }
 
     // Implementation methods
@@ -189,42 +209,46 @@ public class CsvHandler {
         return objects;
     }
 
-    private static <T> void updateCsv(String fileName, Predicate<T> filter, Function<String[], T> createObjectFunc,
-            Function<T, String> toCsvStringFunc) {
-        List<T> objects = new ArrayList<>();
+    private static void updateCsv(String fileName, Function<String[], BaseModel> createObjectFunc,
+            Predicate<BaseModel> filter, BaseModel updatedObject) {
+        List<BaseModel> objects = new ArrayList<>();
         BufferedReader bReader = null;
-        FileWriter fileWriter = null;
+        BufferedWriter bWriter = null;
+        boolean headerSkipped = false;
+        String headerLine = null;
 
         try {
             bReader = new BufferedReader(new FileReader(fileName));
             String line;
-            boolean headerSkipped = false;
 
             while ((line = bReader.readLine()) != null) {
-                if (headerSkipped) {
-                    String[] info = parseCsvLine(line);
-                    T object = createObjectFunc.apply(info);
-                    objects.add(object);
-                } else {
+                if (!headerSkipped) {
+                    // Save the header line
+                    headerLine = line;
+                    objects.add(null); // Placeholder for header line
                     headerSkipped = true;
+                } else {
+                    String[] info = parseCsvLine(line);
+                    BaseModel object = createObjectFunc.apply(info);
+                    if (filter.test(object)) {
+                        objects.add(updatedObject);
+                    } else {
+                        objects.add(object);
+                    }
                 }
             }
 
-            for (T object : objects) {
-                if (filter.test(object)) {
-                    // Perform the necessary updates on the object
-                    // ...
+            bWriter = new BufferedWriter(new FileWriter(fileName));
 
-                    break;
+            for (BaseModel object : objects) {
+                if (object == null) {
+                    // Write the header line
+                    bWriter.write(headerLine);
+                } else {
+                    String csvString = object.toCsvString();
+                    bWriter.write(csvString);
                 }
-            }
-
-            fileWriter = new FileWriter(fileName);
-            fileWriter.write("header line");
-
-            for (T object : objects) {
-                fileWriter.write(System.lineSeparator());
-                fileWriter.write(toCsvStringFunc.apply(object));
+                bWriter.newLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -232,13 +256,12 @@ public class CsvHandler {
             try {
                 if (bReader != null)
                     bReader.close();
-                if (fileWriter != null) {
-                    fileWriter.flush();
-                    fileWriter.close();
-                }
+                if (bWriter != null)
+                    bWriter.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
 }

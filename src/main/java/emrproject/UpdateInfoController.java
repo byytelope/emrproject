@@ -88,8 +88,10 @@ public class UpdateInfoController implements Initializable {
             email = currentPatient.getEmail();
         if (contactNumber.isBlank())
             contactNumber = currentPatient.getContactNumber();
-        if (password.isBlank() && confirmPassword.isBlank())
+        if (password.isBlank() && confirmPassword.isBlank()) {
             password = currentUser.getPassword();
+            confirmPassword = currentUser.getPassword();
+        }
         if (address.isBlank())
             address = currentPatient.getAddress();
 

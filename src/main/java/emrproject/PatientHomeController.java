@@ -107,7 +107,6 @@ public class PatientHomeController implements Initializable {
     }
 
     public void signOutAction(ActionEvent e) throws IOException {
-        System.out.println("Logged out");
         root = FXMLLoader.load(getClass().getResource("signIn.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);

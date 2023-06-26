@@ -81,9 +81,6 @@ public class SignInController implements Initializable {
             Patient currentPatient = csvHandler.getPatient(currentUser.getNid());
             UserSession.getInstance().setUser(currentUser);
             UserSession.getInstance().setPatient(currentPatient);
-            System.out.println("Logged in");
-            System.out.println(currentUser);
-            System.out.println(currentPatient);
 
             root = currentUser.getIsPatient()
                     ? FXMLLoader.load(getClass().getResource("patientHome.fxml"))

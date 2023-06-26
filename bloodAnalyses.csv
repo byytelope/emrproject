@@ -1,0 +1,2 @@
+patientNid,labId,labName,labAddress,date,analysisType,whiteBloodCell,redBloodCell,haemoglobin,lymphocyte
+"A123456","LAB23","Sunway Medical Laboratory","Sunway Medical Center, Sunway City, Kuala Lumpur","12/03/2022","BLOOD","20.0","24.0","0.9","199.0"
