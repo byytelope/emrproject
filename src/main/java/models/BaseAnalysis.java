@@ -1,6 +1,7 @@
 package models;
 
-abstract public class BaseAnalysis extends BaseModel {
+public class BaseAnalysis extends BaseModel {
+    private String uid;
     private String patientNid;
     private String labId;
     private String labName;
@@ -8,12 +9,16 @@ abstract public class BaseAnalysis extends BaseModel {
     private String date;
     protected AnalysisType analysisType;
 
-    public BaseAnalysis(String patientNid, String labId, String labName, String labAddress, String date) {
+    public BaseAnalysis(String uid, String patientNid, String labId, String labName, String labAddress, String date) {
+        this.uid = uid;
         this.patientNid = patientNid;
         this.labId = labId;
         this.labName = labName;
         this.labAddress = labAddress;
         this.date = date;
+    }
+
+    public BaseAnalysis() {
     }
 
     public enum AnalysisType {
@@ -22,7 +27,14 @@ abstract public class BaseAnalysis extends BaseModel {
         URINE,
     }
 
-    abstract public String getFileName();
+    @Override
+    public String getFileName() {
+        throw new UnsupportedOperationException("Unimplemented method 'getFileName'");
+    }
+
+    public String getUid() {
+        return this.uid;
+    }
 
     public String getPatientNid() {
         return this.patientNid;
@@ -46,6 +58,10 @@ abstract public class BaseAnalysis extends BaseModel {
 
     public AnalysisType getAnalysisType() {
         return this.analysisType;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public void setPatientNid(String patientNid) {

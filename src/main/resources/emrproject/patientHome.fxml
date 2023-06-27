@@ -14,22 +14,16 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<BorderPane prefHeight="832.0" prefWidth="1280.0" stylesheets="@styles.css"
-   xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1"
-   fx:controller="emrproject.PatientHomeController">
+<BorderPane prefHeight="832.0" prefWidth="1280.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="emrproject.PatientHomeController">
    <center>
-      <VBox alignment="TOP_CENTER" maxHeight="635.0" maxWidth="802.0" minWidth="802.0"
-         prefWidth="802.0" spacing="16.0"
-         style="-fx-background-color: #ECEEEF; -fx-background-radius: 24;"
-         BorderPane.alignment="CENTER_RIGHT">
+      <VBox alignment="TOP_CENTER" maxHeight="635.0" maxWidth="802.0" minWidth="802.0" prefWidth="802.0" spacing="16.0" style="-fx-background-color: #ECEEEF; -fx-background-radius: 24;" BorderPane.alignment="CENTER_RIGHT">
          <children>
             <HBox spacing="24.0">
                <VBox.margin>
                   <Insets bottom="16.0" />
                </VBox.margin>
                <children>
-                  <TextField fx:id="preferredDocField" promptText="Preferred Doctor"
-                     styleClass="text-input">
+                  <TextField fx:id="preferredDocField" promptText="Preferred Doctor" styleClass="text-input">
                      <padding>
                         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                      </padding>
@@ -37,8 +31,7 @@
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="reqMedicalDepField" layoutX="10.0" layoutY="10.0"
-                     promptText="Requested Medical Department" styleClass="text-input">
+                  <TextField fx:id="reqMedicalDepField" layoutX="10.0" layoutY="10.0" promptText="Requested Medical Department" styleClass="text-input">
                      <padding>
                         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                      </padding>
@@ -50,9 +43,7 @@
             </HBox>
             <HBox spacing="24.0">
                <children>
-                  <TextField fx:id="preferredMedFacilityField"
-                     promptText="Preferred Medical Facility"
-                     styleClass="text-input">
+                  <TextField fx:id="preferredMedFacilityField" promptText="Preferred Medical Facility" styleClass="text-input">
                      <padding>
                         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                      </padding>
@@ -60,8 +51,7 @@
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="dateField" layoutX="10.0" layoutY="10.0" promptText="Date"
-                     styleClass="text-input">
+                  <TextField fx:id="dateField" layoutX="10.0" layoutY="10.0" promptText="Date" styleClass="text-input">
                      <padding>
                         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                      </padding>
@@ -89,8 +79,7 @@
                   <Insets top="8.0" />
                </VBox.margin>
             </HBox>
-            <Button fx:id="requestAppointmentButton" mnemonicParsing="false"
-               onAction="#reqAppointmentAction" prefWidth="1280.0" text="Request Appointment">
+            <Button fx:id="requestAppointmentButton" mnemonicParsing="false" onAction="#reqAppointmentAction" prefWidth="1280.0" text="Request Appointment">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -108,15 +97,11 @@
       </VBox>
    </center>
    <left>
-      <VBox alignment="CENTER" maxHeight="635.0" maxWidth="300.0" prefWidth="300.0" spacing="16.0"
-         style="-fx-background-color: #ECEEEF; -fx-background-radius: 24;"
-         BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" maxHeight="635.0" maxWidth="300.0" prefWidth="300.0" spacing="16.0" style="-fx-background-color: #ECEEEF; -fx-background-radius: 24;" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" maxWidth="112.0" prefHeight="112.0" prefWidth="112.0"
-               style="-fx-background-color: #00687B; -fx-background-radius: 100px;">
+            <HBox alignment="CENTER" maxWidth="112.0" prefHeight="112.0" prefWidth="112.0" style="-fx-background-color: #00687B; -fx-background-radius: 100px;">
                <children>
-                  <Text fx:id="avatarText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                     text="P">
+                  <Text fx:id="avatarText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="P">
                      <font>
                         <Font name="System Bold" size="57.0" />
                      </font>
@@ -139,29 +124,23 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" | " />
                   <Text fx:id="ageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Age" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" | " />
-                  <Text fx:id="nationalityText" strokeType="OUTSIDE" strokeWidth="0.0"
-                     text="Nationality" />
+                  <Text fx:id="nationalityText" strokeType="OUTSIDE" strokeWidth="0.0" text="Nationality" />
                </children>
             </TextFlow>
-            <HBox alignment="CENTER" maxWidth="300.0" prefHeight="40.0" prefWidth="0.0"
-               spacing="8.0">
+            <HBox alignment="CENTER" maxWidth="300.0" prefHeight="40.0" prefWidth="0.0" spacing="8.0">
                <children>
-                  <Button id="icon-text-button" fx:id="phoneButton" graphicTextGap="8.0"
-                     minWidth="122.0" mnemonicParsing="false" onAction="#phoneAction" text="Phone">
+                  <Button id="icon-text-button" fx:id="phoneButton" graphicTextGap="8.0" minWidth="122.0" mnemonicParsing="false" onAction="#phoneAction" text="Phone">
                      <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true"
-                           preserveRatio="true">
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@phone.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button id="icon-text-button" fx:id="emailButton" graphicTextGap="8.0"
-                     minWidth="122.0" mnemonicParsing="false" onAction="#emailAction" text="Email">
+                  <Button id="icon-text-button" fx:id="emailButton" graphicTextGap="8.0" minWidth="122.0" mnemonicParsing="false" onAction="#emailAction" text="Email">
                      <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true"
-                           preserveRatio="true">
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@email.png" />
                            </image>
@@ -170,8 +149,23 @@
                   </Button>
                </children>
             </HBox>
-            <Button fx:id="viewReportsButton" mnemonicParsing="false" onAction="#viewReportsAction"
-               prefHeight="40.0" prefWidth="1280.0" text="View Reports">
+            <Button fx:id="viewAnalysisReportsButton" mnemonicParsing="false" onAction="#viewAnalysisReportsAction" prefHeight="40.0" prefWidth="1280.0" text="View Analysis Reports">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="24.0" right="24.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="viewDiagnosisReportsButton" layoutX="34.0" layoutY="312.0" mnemonicParsing="false" onAction="#viewDiagnosisReportsAction" prefHeight="40.0" prefWidth="1280.0" text="View Diagnosis Reports">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="24.0" right="24.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="viewTreatmentCoursesButton" layoutX="34.0" layoutY="368.0" mnemonicParsing="false" onAction="#viewTreatmentCoursesAction" prefHeight="40.0" prefWidth="1280.0" text="My Treatment Courses">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -182,8 +176,7 @@
             <VBox spacing="8.0" VBox.vgrow="ALWAYS">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Allergies" />
-                  <Text fx:id="allergiesText" fill="#00687b" strokeType="OUTSIDE" strokeWidth="0.0"
-                     text="Allergy 1, Allergy 2, Allergy 3, Allergy 4" />
+                  <Text fx:id="allergiesText" fill="#00687b" strokeType="OUTSIDE" strokeWidth="0.0" text="Allergy 1, Allergy 2, Allergy 3, Allergy 4" />
                </children>
                <VBox.margin>
                   <Insets left="24.0" right="24.0" top="24.0" />
@@ -191,12 +184,9 @@
             </VBox>
             <HBox alignment="TOP_CENTER" fillHeight="false" prefHeight="56.0">
                <children>
-                  <Button id="fab" fx:id="updateInfoButton" graphicTextGap="8.0"
-                     mnemonicParsing="false" onAction="#updateInfoAction" text="Update Info"
-                     HBox.hgrow="NEVER">
+                  <Button id="fab" fx:id="updateInfoButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#updateInfoAction" text="Update Info" HBox.hgrow="NEVER">
                      <graphic>
-                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                           preserveRatio="true">
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@edit.png" />
                            </image>
@@ -215,9 +205,7 @@
       </VBox>
    </left>
    <top>
-      <Button id="icon-text-button" fx:id="signOutButton" graphicTextGap="8.0"
-         mnemonicParsing="false" onAction="#signOutAction" text="Sign Out"
-         BorderPane.alignment="CENTER_LEFT">
+      <Button id="icon-text-button" fx:id="signOutButton" graphicTextGap="8.0" mnemonicParsing="false" onAction="#signOutAction" text="Sign Out" BorderPane.alignment="CENTER_LEFT">
          <graphic>
             <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                <image>

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -69,7 +70,7 @@ public class DiagnosisFormController implements Initializable {
     }
 
     public void backAction(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("doctorHome.fxml"));
+        root = FXMLLoader.load(getClass().getResource("diagnosisReports.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -78,7 +79,7 @@ public class DiagnosisFormController implements Initializable {
 
     public void submitAction(ActionEvent e) throws IOException {
         if (formVerified()) {
-            root = FXMLLoader.load(getClass().getResource("doctorHome.fxml"));
+            root = FXMLLoader.load(getClass().getResource("diagnosisReports.fxml"));
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -121,11 +122,12 @@ public class DiagnosisFormController implements Initializable {
 
         if (errorText.isBlank()) {
             Patient patient = UserSession.getInstance().getPatient();
-            Diagnosis diagnosis = new Diagnosis(patient.getNid(), diagnosisText, date,
+            Diagnosis diagnosis = new Diagnosis(UUID.randomUUID().toString(), patient.getNid(), diagnosisText, date,
                     labId, labName, results, allergies);
 
-            allergies.addAll(patient.getAllergies());
-            patient.setAllergies(allergies);
+            List<String> pAllergies = patient.getAllergies();
+            pAllergies.addAll(allergies);
+            patient.setAllergies(pAllergies);
 
             CsvHandler csvHandler = new CsvHandler();
             csvHandler.addDiagnosis(diagnosis);

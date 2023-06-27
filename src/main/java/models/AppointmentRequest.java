@@ -1,6 +1,7 @@
 package models;
 
 public class AppointmentRequest extends BaseModel {
+    private String uid;
     private String patientNid;
     private String preferredDoctor;
     private String requestedMedicalDept;
@@ -9,10 +10,11 @@ public class AppointmentRequest extends BaseModel {
     private String details;
     private boolean isFollowUp;
 
-    public AppointmentRequest(String patientNid, String preferredDoctor, String requestedMedicalDept,
+    public AppointmentRequest(String uid, String patientNid, String preferredDoctor, String requestedMedicalDept,
             String preferredMedicalFacility,
             String date,
             String details, boolean isFollowUp) {
+        this.uid = uid;
         this.patientNid = patientNid;
         this.preferredDoctor = preferredDoctor;
         this.requestedMedicalDept = requestedMedicalDept;
@@ -28,6 +30,10 @@ public class AppointmentRequest extends BaseModel {
     @Override
     public String getFileName() {
         return "appointmentReqs.csv";
+    }
+
+    public String getUid() {
+        return this.uid;
     }
 
     public String getPatientNid() {
@@ -56,6 +62,10 @@ public class AppointmentRequest extends BaseModel {
 
     public boolean getIsFollowUp() {
         return this.isFollowUp;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public void setPatientNid(String patientNid) {

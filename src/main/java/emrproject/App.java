@@ -20,7 +20,6 @@ public class App extends Application {
 
         stage.setResizable(false);
         stage.setTitle("EMR");
-        // stage.getIcons().add(new Image(getClass().getResourceAsStream("globe.png")));
         stage.setScene(signInScene);
         stage.show();
     }

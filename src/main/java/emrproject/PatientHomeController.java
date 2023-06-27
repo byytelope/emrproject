@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,7 +66,13 @@ public class PatientHomeController implements Initializable {
     private Button emailButton;
 
     @FXML
-    private Button viewReportsButton;
+    private Button viewAnalysisReportsButton;
+
+    @FXML
+    private Button viewDiagnosisReportsButton;
+
+    @FXML
+    private Button viewTreatmentCoursesButton;
 
     @FXML
     private Button updateInfoButton;
@@ -107,6 +114,8 @@ public class PatientHomeController implements Initializable {
     }
 
     public void signOutAction(ActionEvent e) throws IOException {
+        UserSession.getInstance().clearInstance();
+
         root = FXMLLoader.load(getClass().getResource("signIn.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -142,7 +151,8 @@ public class PatientHomeController implements Initializable {
 
         if (errorText.isBlank()) {
             String patientNid = this.currentPatient.getNid();
-            AppointmentRequest appointmentReq = new AppointmentRequest(patientNid, preferredDoc, reqMedicalDep,
+            AppointmentRequest appointmentReq = new AppointmentRequest(UUID.randomUUID().toString(), patientNid,
+                    preferredDoc, reqMedicalDep,
                     preferredMedFacility,
                     date, details, isFollowUp);
             CsvHandler csvHandler = new CsvHandler();
@@ -185,8 +195,28 @@ public class PatientHomeController implements Initializable {
         }
     }
 
-    public void viewReportsAction(ActionEvent e) throws IOException {
+    public void viewAnalysisReportsAction(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("analysisReports.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
+    public void viewDiagnosisReportsAction(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("diagnosisReports.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void viewTreatmentCoursesAction(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("treatmentCourses.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void updateInfoAction(ActionEvent e) throws IOException {

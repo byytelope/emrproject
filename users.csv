@@ -1,3 +1,4 @@
 nid,name,email,password,isPatient
 "A123456","Mohamed Shadhaan","patient@email.com","wasdokok","true"
 "DR21","Dr. Ahmed Ali","drahmedali@hospital.com","wasdokok","false"
+"A231314","Lee We Yin","patient2@email.com","wasdokok","true"

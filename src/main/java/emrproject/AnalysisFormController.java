@@ -3,6 +3,7 @@ package emrproject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -157,7 +158,7 @@ public class AnalysisFormController implements Initializable {
     }
 
     public void backAction(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("doctorHome.fxml"));
+        root = FXMLLoader.load(getClass().getResource("analysisReports.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -191,7 +192,7 @@ public class AnalysisFormController implements Initializable {
 
     public void submitAction(ActionEvent e) throws IOException {
         if (formVerified()) {
-            root = FXMLLoader.load(getClass().getResource("doctorHome.fxml"));
+            root = FXMLLoader.load(getClass().getResource("analysisReports.fxml"));
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -265,7 +266,8 @@ public class AnalysisFormController implements Initializable {
                 errorText += "Enter a number value for ALT.";
 
             if (errorText.isBlank()) {
-                BioBloodAnalysis bioBloodAnalysis = new BioBloodAnalysis(currentPatient.getNid(), labId, labName,
+                BioBloodAnalysis bioBloodAnalysis = new BioBloodAnalysis(UUID.randomUUID().toString(),
+                        currentPatient.getNid(), labId, labName,
                         labAddress, date, Double.parseDouble(sodiumText),
                         Double.parseDouble(potassiumText),
                         Double.parseDouble(ureaText),
@@ -304,7 +306,8 @@ public class AnalysisFormController implements Initializable {
                 errorText += "Enter a number value for lymphocytes.";
 
             if (errorText.isBlank()) {
-                BloodAnalysis bloodAnalysis = new BloodAnalysis(currentPatient.getNid(), labId, labName, labAddress,
+                BloodAnalysis bloodAnalysis = new BloodAnalysis(UUID.randomUUID().toString(), currentPatient.getNid(),
+                        labId, labName, labAddress,
                         date, Double.parseDouble(whiteBloodCellBText),
                         Double.parseDouble(redBloodCellBText),
                         Double.parseDouble(haemoglobinText),
@@ -350,7 +353,9 @@ public class AnalysisFormController implements Initializable {
                 errorText += "Enter a number value for RBC.";
 
             if (errorText.isBlank()) {
-                UrineAnalysis urineAnalysis = new UrineAnalysis(errorText, labId, labName, labAddress, date,
+                UrineAnalysis urineAnalysis = new UrineAnalysis(UUID.randomUUID().toString(), currentPatient.getNid(),
+                        labId, labName,
+                        labAddress, date,
                         clarityText, crystalsText, bacteriaText, Double.parseDouble(ketoneText),
                         Double.parseDouble(proteinText),
                         Double.parseDouble(clinitestText),

@@ -3,6 +3,7 @@ package emrproject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,7 +66,7 @@ public class TreatmentCourseFormController implements Initializable {
 
     public void submitAction(ActionEvent e) throws IOException {
         if (infoVerified()) {
-            root = FXMLLoader.load(getClass().getResource("doctorHome.fxml"));
+            root = FXMLLoader.load(getClass().getResource("treatmentCourses.fxml"));
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -102,7 +103,8 @@ public class TreatmentCourseFormController implements Initializable {
             errorText += "Provide a results.\n";
 
         if (errorText.isBlank()) {
-            TreatmentCourse treatmentCourse = new TreatmentCourse(UserSession.getInstance().getPatient().getNid(),
+            TreatmentCourse treatmentCourse = new TreatmentCourse(UUID.randomUUID().toString(),
+                    UserSession.getInstance().getPatient().getNid(),
                     diagnosis, treatmentType, startDate, endDate, results);
             csvHandler.addTreatmentCourse(treatmentCourse);
 
@@ -118,7 +120,7 @@ public class TreatmentCourseFormController implements Initializable {
     }
 
     public void backAction(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("doctorHome.fxml"));
+        root = FXMLLoader.load(getClass().getResource("treatmentCourses.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

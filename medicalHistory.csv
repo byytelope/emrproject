@@ -1,0 +1,2 @@
+uid,patientNid,patientHeight,patientWeight,procedureName,attendingStaff,medicationName,wardNo,majorComplications,treatmentHistory
+"5e0d97d6-ce2e-4fdc-a3eb-bacaddf90887","A123456","170.0","56.0","","Dr. Ahmed Ali","Ibuprofane","20C","","Complaints of migraine and headache."

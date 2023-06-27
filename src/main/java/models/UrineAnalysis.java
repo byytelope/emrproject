@@ -10,11 +10,11 @@ public class UrineAnalysis extends BaseAnalysis {
     private double whiteBloodCell;
     private double redBloodCell;
 
-    public UrineAnalysis(String patientNid, String labId, String labName, String labAddress, String date,
+    public UrineAnalysis(String uid, String patientNid, String labId, String labName, String labAddress, String date,
             String clarity, String crystals, String bacteria, double ketone, double protein, double clinitest,
             double whiteBloodCell,
             double redBloodCell) {
-        super(patientNid, labId, labName, labAddress, date);
+        super(uid, patientNid, labId, labName, labAddress, date);
 
         this.analysisType = AnalysisType.URINE;
         this.clarity = clarity;
@@ -25,6 +25,9 @@ public class UrineAnalysis extends BaseAnalysis {
         this.clinitest = clinitest;
         this.whiteBloodCell = whiteBloodCell;
         this.redBloodCell = redBloodCell;
+    }
+
+    public UrineAnalysis() {
     }
 
     @Override

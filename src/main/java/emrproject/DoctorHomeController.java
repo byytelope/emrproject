@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,14 +20,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import models.AppointmentRequest;
 import models.Patient;
 import utils.CsvHandler;
+import utils.MiscUtils;
 import utils.UserSession;
 
 public class DoctorHomeController implements Initializable {
@@ -45,10 +49,16 @@ public class DoctorHomeController implements Initializable {
     private Button emailButton;
 
     @FXML
-    private Button newTreatmentCourseButton;
+    private Button medicalHistoryButton;
 
     @FXML
-    private Button viewAllReportsButton;
+    private Button analysisReportsButton;
+
+    @FXML
+    private Button diagnosisReportsButton;
+
+    @FXML
+    private Button treatmentCoursesButton;
 
     @FXML
     private Text avatarText;
@@ -78,10 +88,11 @@ public class DoctorHomeController implements Initializable {
     private VBox centerBox;
 
     @FXML
-    private ListView<String> appointmentRequests;
+    private TableView<ObservableList<String>> appointmentRequestsTable;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        appointmentRequestsTable.setPlaceholder(new Text("No appointment requests have been made."));
         Patient currentPatient = UserSession.getInstance().getPatient();
         if (currentPatient != null) {
             setPatient(currentPatient);
@@ -92,6 +103,8 @@ public class DoctorHomeController implements Initializable {
     }
 
     public void signOutAction(ActionEvent e) throws IOException {
+        UserSession.getInstance().clearInstance();
+
         root = FXMLLoader.load(getClass().getResource("signIn.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -119,32 +132,32 @@ public class DoctorHomeController implements Initializable {
         }
     }
 
-    public void viewReportsAction(ActionEvent e) throws IOException {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setHeaderText("Select Report Type");
-        alert.setContentText("Please select which type of report you want to view.");
-
-        ButtonType analysisButton = new ButtonType("Analysis Reports");
-        ButtonType diagnosisButton = new ButtonType("Diagnosis Reports");
-
-        alert.getButtonTypes().setAll(analysisButton, diagnosisButton);
-        alert.showAndWait().ifPresent(response -> {
-            try {
-                // TODO: change form to list
-                root = FXMLLoader.load(getClass()
-                        .getResource(response == analysisButton ? "analysisForm.fxml" : "diagnosisList.fxml"));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        });
+    public void viewAnalysisReportsAction(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("analysisReports.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    public void newTreatmentCourseAction(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("treatmentCourseForm.fxml"));
+    public void viewDiagnosisReportsAction(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("diagnosisReports.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void viewTreatmentCoursesAction(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("treatmentCourses.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void viewMedicalHistoryAction(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("medicalHistory.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -175,8 +188,14 @@ public class DoctorHomeController implements Initializable {
         nationalityText.setText(patient.getNationality());
         allergiesText.setText(String.join(", ", patient.getAllergies()));
 
+        CsvHandler csvHandler = new CsvHandler();
+        List<String> columnNames = Arrays.asList(new AppointmentRequest().toCsvHeader().replace("uid,", "").split(","));
+
+        MiscUtils.initializeTableColumns(columnNames, appointmentRequestsTable);
+        List<AppointmentRequest> appointmentRequests = csvHandler.getAllAppointmentReqs(patient.getNid());
+        MiscUtils.initializeTableRows(appointmentRequests, appointmentRequestsTable);
+
         sideBox.setVisible(true);
         centerBox.setVisible(true);
-
     }
 }

@@ -1,3 +1,16 @@
+.table-view {
+  -fx-border-width: 0;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+  -fx-background-color: transparent;
+}
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header-background .filler {
+  -fx-background-color: #E1E3E4;
+}
+
 .list-view {
   -fx-border-width: 0;
   -fx-background-insets: 0;

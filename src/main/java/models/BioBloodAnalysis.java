@@ -10,10 +10,10 @@ public class BioBloodAnalysis extends BaseAnalysis {
     private double ast;
     private double alt;
 
-    public BioBloodAnalysis(String patientNid, String labId, String labName, String labAddress, String date,
+    public BioBloodAnalysis(String uid, String patientNid, String labId, String labName, String labAddress, String date,
             double sodium, double potassium, double urea, double creatinine, double glucose,
             double biluribin, double ast, double alt) {
-        super(patientNid, labId, labName, labAddress, date);
+        super(uid, patientNid, labId, labName, labAddress, date);
 
         this.analysisType = AnalysisType.BIOBLOOD;
         this.sodium = sodium;
@@ -24,6 +24,9 @@ public class BioBloodAnalysis extends BaseAnalysis {
         this.biluribin = biluribin;
         this.ast = ast;
         this.alt = alt;
+    }
+
+    public BioBloodAnalysis() {
     }
 
     @Override

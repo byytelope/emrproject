@@ -1,2 +1,2 @@
-patientNid,labId,labName,labAddress,date,analysisType,whiteBloodCell,redBloodCell,haemoglobin,lymphocyte
-"A123456","LAB23","Sunway Medical Laboratory","Sunway Medical Center, Sunway City, Kuala Lumpur","12/03/2022","BLOOD","20.0","24.0","0.9","199.0"
+uid,patientNid,labId,labName,labAddress,date,analysisType,whiteBloodCell,redBloodCell,haemoglobin,lymphocyte
+"528c90ca-7d62-4d44-9833-d85886a01ec6","A123456","LAB123","Sunway Medical Lab","Sunway Medical Center, Sunway City, Kuala Lumpur","12/03/2022","BLOOD","2.5","12.5","120.0","46.0"

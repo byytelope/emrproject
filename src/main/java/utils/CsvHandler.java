@@ -15,9 +15,13 @@ import java.util.function.Predicate;
 import models.AppointmentRequest;
 import models.BaseAnalysis;
 import models.BaseModel;
+import models.BioBloodAnalysis;
+import models.BloodAnalysis;
 import models.Diagnosis;
+import models.MedicalHistory;
 import models.Patient;
 import models.TreatmentCourse;
+import models.UrineAnalysis;
 import models.User;
 
 public class CsvHandler {
@@ -54,6 +58,25 @@ public class CsvHandler {
                 analysis.toCsvString());
     }
 
+    public void addMedicalHistory(MedicalHistory medicalHistory) {
+        addOneCsv(medicalHistory.getFileName(), medicalHistory.toCsvHeader(), medicalHistory.toCsvString());
+    }
+
+    public User getUser(String userNid) {
+        List<User> users = getCsv(new User().getFileName(), info -> {
+            String nid = info[0];
+            String name = info[1];
+            String email = info[2];
+            String password = info[3];
+            boolean isPatient = Boolean.parseBoolean(info[4]);
+
+            return new User(nid, name, email, password, isPatient);
+
+        }, user -> user.getNid().equals(userNid), false);
+
+        return users.isEmpty() ? null : users.get(0);
+    }
+
     public Patient getPatient(String patientNid) {
         List<Patient> patients = getCsv(new Patient().getFileName(), info -> {
             String nid = info[0];
@@ -65,14 +88,189 @@ public class CsvHandler {
             String contactNumber = info[6];
             int age = Integer.parseInt(info[7]);
             ArrayList<String> allergies = new ArrayList<>(Arrays.asList(info[8].split(",")));
+
             return new Patient(nid, name, gender, address, nationality, email, contactNumber, age, allergies);
-        }, (Patient patient) -> patient.getNid().equals(patientNid), false);
 
-        if (patients.isEmpty()) {
-            return null;
-        }
+        }, patient -> patient.getNid().equals(patientNid), false);
 
-        return patients.get(0);
+        return patients.isEmpty() ? null : patients.get(0);
+    }
+
+    public AppointmentRequest getAppointmentReq(String reqUid) {
+        List<AppointmentRequest> reqs = getCsv(new AppointmentRequest().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String preferredDoctor = info[2];
+            String requestedMedicalDept = info[3];
+            String preferredMedicalFacility = info[4];
+            String date = info[5];
+            String details = info[6];
+            boolean isFollowUp = Boolean.parseBoolean(info[7]);
+
+            return new AppointmentRequest(uid, patientNid, preferredDoctor, requestedMedicalDept,
+                    preferredMedicalFacility,
+                    date, details, isFollowUp);
+
+        }, req -> req.getUid().equals(reqUid), false);
+
+        return reqs.isEmpty() ? null : reqs.get(0);
+    }
+
+    public TreatmentCourse getTreatmentCourse(String courseUid) {
+        List<TreatmentCourse> courses = getCsv(new TreatmentCourse().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String diagnosis = info[2];
+            String treatmentType = info[3];
+            String startDate = info[4];
+            String endDate = info[5];
+            String results = info[6];
+
+            return new TreatmentCourse(uid, patientNid, diagnosis, treatmentType, startDate, endDate, results);
+        }, course -> true, false);
+
+        return courses.isEmpty() ? null : courses.get(0);
+    }
+
+    public Diagnosis getDiagnosis(String diagnosisUid) {
+        List<Diagnosis> diagnoses = getCsv(new Diagnosis().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String diagnosis = info[2];
+            String date = info[3];
+            String labId = info[4];
+            String labName = info[5];
+            String results = info[6];
+            ArrayList<String> allergies = new ArrayList<>(Arrays.asList(info[7].split(",")));
+
+            return new Diagnosis(uid, patientNid, diagnosis, date, labId, labName, results, allergies);
+
+        }, diagnosis -> diagnosis.getUid().equals(diagnosisUid), false);
+
+        return diagnoses.isEmpty() ? null : diagnoses.get(0);
+    }
+
+    public BloodAnalysis getBloodAnalysis(String analysisUid) {
+        List<BloodAnalysis> analyses = getCsv(new BloodAnalysis().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String labId = info[2];
+            String labName = info[3];
+            String labAddress = info[4];
+            String date = info[5];
+            double whiteBloodCell = Double.parseDouble(info[7]);
+            double redBloodCell = Double.parseDouble(info[8]);
+            double haemoglobin = Double.parseDouble(info[9]);
+            double lymphocytes = Double.parseDouble(info[10]);
+
+            return new BloodAnalysis(uid, patientNid, labId, labName,
+                    labAddress,
+                    date,
+                    whiteBloodCell,
+                    redBloodCell,
+                    haemoglobin,
+                    lymphocytes);
+
+        }, analysis -> analysis.getUid().equals(analysisUid), false);
+
+        return analyses.isEmpty() ? null : analyses.get(0);
+    }
+
+    public BioBloodAnalysis getBioBloodAnalysis(String analysisUid) {
+        List<BioBloodAnalysis> analyses = getCsv(new BioBloodAnalysis().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String labId = info[2];
+            String labName = info[3];
+            String labAddress = info[4];
+            String date = info[5];
+            double sodium = Double.parseDouble(info[7]);
+            double potassium = Double.parseDouble(info[8]);
+            double urea = Double.parseDouble(info[9]);
+            double creatinine = Double.parseDouble(info[10]);
+            double glucose = Double.parseDouble(info[11]);
+            double biluribin = Double.parseDouble(info[12]);
+            double ast = Double.parseDouble(info[13]);
+            double alt = Double.parseDouble(info[14]);
+
+            return new BioBloodAnalysis(uid, patientNid, labId, labName,
+                    labAddress,
+                    date,
+                    sodium, potassium, urea, creatinine, glucose,
+                    biluribin, ast, alt);
+
+        }, analysis -> analysis.getUid().equals(analysisUid), false);
+
+        return analyses.isEmpty() ? null : analyses.get(0);
+    }
+
+    public UrineAnalysis getUrineAnalysis(String analysisUid) {
+        List<UrineAnalysis> analyses = getCsv(new UrineAnalysis().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String labId = info[2];
+            String labName = info[3];
+            String labAddress = info[4];
+            String date = info[5];
+            String clarity = info[7];
+            String crystals = info[8];
+            String bacteria = info[9];
+            double ketone = Double.parseDouble(info[10]);
+            double protein = Double.parseDouble(info[11]);
+            double clinitest = Double.parseDouble(info[12]);
+            double whiteBloodCell = Double.parseDouble(info[13]);
+            double redBloodCell = Double.parseDouble(info[14]);
+
+            return new UrineAnalysis(uid, patientNid, labId, labName,
+                    labAddress,
+                    date,
+                    clarity, crystals, bacteria, ketone, protein, clinitest,
+                    whiteBloodCell,
+                    redBloodCell);
+
+        }, analysis -> analysis.getUid().equals(analysisUid), false);
+
+        return analyses.isEmpty() ? null : analyses.get(0);
+    }
+
+    public MedicalHistory getMedicalHistory(String historyUid) {
+        List<MedicalHistory> medicalHistories = getCsv(new MedicalHistory().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            double patientHeight = Double.parseDouble(info[2]);
+            double patientWeight = Double.parseDouble(info[3]);
+            String procedureName = info[4];
+            String attendingStaff = info[5];
+            String medicationName = info[6];
+            String wardNo = info[7];
+            String majorComplications = info[8];
+            String treatmentHistory = info[9];
+
+            return new MedicalHistory(uid,
+                    patientNid,
+                    patientHeight,
+                    patientWeight,
+                    procedureName,
+                    attendingStaff,
+                    medicationName,
+                    wardNo,
+                    majorComplications,
+                    treatmentHistory);
+
+        }, history -> history.getUid().equals(historyUid), false);
+
+        return medicalHistories.isEmpty() ? null : medicalHistories.get(0);
+    }
+
+    public List<User> getAllUsers() {
+        return getCsv(new User().getFileName(), info -> {
+            String nid = info[0];
+            String name = info[1];
+            String email = info[2];
+            String password = info[3];
+            boolean isPatient = Boolean.parseBoolean(info[4]);
+            return new User(nid, name, email, password, isPatient);
+        }, user -> true, true);
     }
 
     public List<Patient> getAllPatients() {
@@ -86,19 +284,171 @@ public class CsvHandler {
             String contactNumber = info[6];
             int age = Integer.parseInt(info[7]);
             ArrayList<String> allergies = new ArrayList<>(Arrays.asList(info[8].split(",")));
+
             return new Patient(nid, name, gender, address, nationality, email, contactNumber, age, allergies);
+
         }, (patient) -> true, true);
     }
 
-    public List<User> getAllUsers() {
-        return getCsv(new User().getFileName(), info -> {
-            String nid = info[0];
-            String name = info[1];
-            String email = info[2];
-            String password = info[3];
-            boolean isPatient = Boolean.parseBoolean(info[4]);
-            return new User(nid, name, email, password, isPatient);
-        }, user -> true, true);
+    public List<AppointmentRequest> getAllAppointmentReqs(String nid) {
+        return getCsv(new AppointmentRequest().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String preferredDoctor = info[2];
+            String requestedMedicalDept = info[3];
+            String preferredMedicalFacility = info[4];
+            String date = info[5];
+            String details = info[6];
+            boolean isFollowUp = Boolean.parseBoolean(info[7]);
+
+            return new AppointmentRequest(uid, patientNid, preferredDoctor, requestedMedicalDept,
+                    preferredMedicalFacility,
+                    date, details, isFollowUp);
+
+        }, req -> req.getPatientNid().equals(nid), true);
+    }
+
+    public List<TreatmentCourse> getAllTreatmentCourses(String nid) {
+        return getCsv(new TreatmentCourse().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String diagnosis = info[2];
+            String treatmentType = info[3];
+            String startDate = info[4];
+            String endDate = info[5];
+            String results = info[6];
+
+            return new TreatmentCourse(uid, patientNid, diagnosis, treatmentType, startDate, endDate, results);
+        }, course -> course.getPatientNid().equals(nid), true);
+    }
+
+    public List<Diagnosis> getAllDiagnoses(String nid) {
+        return getCsv(new Diagnosis().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String diagnosis = info[2];
+            String date = info[3];
+            String labId = info[4];
+            String labName = info[5];
+            String results = info[6];
+            ArrayList<String> allergies = new ArrayList<>(Arrays.asList(info[7].split(",")));
+
+            return new Diagnosis(uid, patientNid, diagnosis, date, labId, labName, results, allergies);
+
+        }, diagnosis -> diagnosis.getPatientNid().equals(nid), true);
+    }
+
+    public List<BloodAnalysis> getAllBloodAnalyses(String nid) {
+        return getCsv(new BloodAnalysis().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String labId = info[2];
+            String labName = info[3];
+            String labAddress = info[4];
+            String date = info[5];
+            double whiteBloodCell = Double.parseDouble(info[7]);
+            double redBloodCell = Double.parseDouble(info[8]);
+            double haemoglobin = Double.parseDouble(info[9]);
+            double lymphocytes = Double.parseDouble(info[10]);
+
+            return new BloodAnalysis(uid, patientNid, labId, labName,
+                    labAddress,
+                    date,
+                    whiteBloodCell,
+                    redBloodCell,
+                    haemoglobin,
+                    lymphocytes);
+
+        }, analysis -> analysis.getPatientNid().equals(nid), true);
+    }
+
+    public List<BioBloodAnalysis> getAllBioBloodAnalyses(String nid) {
+        return getCsv(new BioBloodAnalysis().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String labId = info[2];
+            String labName = info[3];
+            String labAddress = info[4];
+            String date = info[5];
+            double sodium = Double.parseDouble(info[7]);
+            double potassium = Double.parseDouble(info[8]);
+            double urea = Double.parseDouble(info[9]);
+            double creatinine = Double.parseDouble(info[10]);
+            double glucose = Double.parseDouble(info[11]);
+            double biluribin = Double.parseDouble(info[12]);
+            double ast = Double.parseDouble(info[13]);
+            double alt = Double.parseDouble(info[14]);
+
+            return new BioBloodAnalysis(uid, patientNid, labId, labName,
+                    labAddress,
+                    date,
+                    sodium, potassium, urea, creatinine, glucose,
+                    biluribin, ast, alt);
+
+        }, analysis -> analysis.getPatientNid().equals(nid), true);
+    }
+
+    public List<UrineAnalysis> getAllUrineAnalyses(String nid) {
+        return getCsv(new UrineAnalysis().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            String labId = info[2];
+            String labName = info[3];
+            String labAddress = info[4];
+            String date = info[5];
+            String clarity = info[7];
+            String crystals = info[8];
+            String bacteria = info[9];
+            double ketone = Double.parseDouble(info[10]);
+            double protein = Double.parseDouble(info[11]);
+            double clinitest = Double.parseDouble(info[12]);
+            double whiteBloodCell = Double.parseDouble(info[13]);
+            double redBloodCell = Double.parseDouble(info[14]);
+
+            return new UrineAnalysis(uid, patientNid, labId, labName,
+                    labAddress,
+                    date,
+                    clarity, crystals, bacteria, ketone, protein, clinitest,
+                    whiteBloodCell,
+                    redBloodCell);
+
+        }, analysis -> analysis.getPatientNid().equals(nid), true);
+    }
+
+    public List<BaseAnalysis> getAllAnalyses(String nid) {
+        List<BaseAnalysis> analyses = new ArrayList<BaseAnalysis>();
+        analyses.addAll(getAllBioBloodAnalyses(nid));
+        analyses.addAll(getAllBloodAnalyses(nid));
+        analyses.addAll(getAllUrineAnalyses(nid));
+
+        return analyses;
+    }
+
+    public List<MedicalHistory> getAllMedicalHistory(String nid) {
+        return getCsv(new MedicalHistory().getFileName(), info -> {
+            String uid = info[0];
+            String patientNid = info[1];
+            double patientHeight = Double.parseDouble(info[2]);
+            double patientWeight = Double.parseDouble(info[3]);
+            String procedureName = info[4];
+            String attendingStaff = info[5];
+            String medicationName = info[6];
+            String wardNo = info[7];
+            String majorComplications = info[8];
+            String treatmentHistory = info[9];
+
+            return new MedicalHistory(uid,
+                    patientNid,
+                    patientHeight,
+                    patientWeight,
+                    procedureName,
+                    attendingStaff,
+                    medicationName,
+                    wardNo,
+                    majorComplications,
+                    treatmentHistory);
+
+        }, history -> history.getPatientNid().equals(nid), true);
     }
 
     public void updateUser(User updatedUser) {
@@ -129,7 +479,7 @@ public class CsvHandler {
 
     // Implementation methods
 
-    private static String[] parseCsvLine(String line) {
+    public static String[] parseCsvLine(String line) {
         ArrayList<String> fields = new ArrayList<String>();
         StringBuilder currentField = new StringBuilder();
         boolean insideQuotes = false;
@@ -177,7 +527,11 @@ public class CsvHandler {
         BufferedReader bReader = null;
 
         try {
-            bReader = new BufferedReader(new FileReader(fileName));
+            File file = new File(fileName);
+            if (!file.exists())
+                return objects;
+
+            bReader = new BufferedReader(new FileReader(file));
             String line;
             boolean headerSkipped = false;
 
@@ -223,9 +577,8 @@ public class CsvHandler {
 
             while ((line = bReader.readLine()) != null) {
                 if (!headerSkipped) {
-                    // Save the header line
                     headerLine = line;
-                    objects.add(null); // Placeholder for header line
+                    objects.add(null);
                     headerSkipped = true;
                 } else {
                     String[] info = parseCsvLine(line);
@@ -242,7 +595,6 @@ public class CsvHandler {
 
             for (BaseModel object : objects) {
                 if (object == null) {
-                    // Write the header line
                     bWriter.write(headerLine);
                 } else {
                     String csvString = object.toCsvString();

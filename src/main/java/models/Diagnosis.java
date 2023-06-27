@@ -2,8 +2,10 @@ package models;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class Diagnosis extends BaseModel {
+    private String uid;
     private String patientNid;
     private String diagnosis;
     private String date;
@@ -12,8 +14,10 @@ public class Diagnosis extends BaseModel {
     private String results;
     private List<String> allergies;
 
-    public Diagnosis(String patientNid, String diagnosis, String date, String labId, String labName, String results,
+    public Diagnosis(String uid, String patientNid, String diagnosis, String date, String labId, String labName,
+            String results,
             List<String> allergies) {
+        this.uid = UUID.randomUUID().toString();
         this.patientNid = patientNid;
         this.diagnosis = diagnosis;
         this.date = date;
@@ -29,6 +33,10 @@ public class Diagnosis extends BaseModel {
     @Override
     public String getFileName() {
         return "diagnoses.csv";
+    }
+
+    public String getUid() {
+        return this.uid;
     }
 
     public String getPatientNid() {
@@ -57,6 +65,10 @@ public class Diagnosis extends BaseModel {
 
     public List<String> getAllergies() {
         return this.allergies;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public void setPatientNid(String patientNid) {

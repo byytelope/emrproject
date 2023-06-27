@@ -6,15 +6,18 @@ public class BloodAnalysis extends BaseAnalysis {
     private double haemoglobin;
     private double lymphocyte;
 
-    public BloodAnalysis(String patientNid, String labId, String labName, String labAddress, String date,
+    public BloodAnalysis(String uid, String patientNid, String labId, String labName, String labAddress, String date,
             double whiteBloodCell, double redBloodCell, double haemoglobin, double lymphocyte) {
-        super(patientNid, labId, labName, labAddress, date);
+        super(uid, patientNid, labId, labName, labAddress, date);
 
         this.analysisType = AnalysisType.BLOOD;
         this.whiteBloodCell = whiteBloodCell;
         this.redBloodCell = redBloodCell;
         this.haemoglobin = haemoglobin;
         this.lymphocyte = lymphocyte;
+    }
+
+    public BloodAnalysis() {
     }
 
     @Override
