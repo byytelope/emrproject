@@ -1,0 +1,2 @@
+uid,patientNid,labId,labName,labAddress,date,analysisType,clarity,crystals,bacteria,ketone,protein,clinitest,whiteBloodCell,redBloodCell
+"133e22df-40bc-43b2-bad3-642438dfd304","A123456","LAB123","Sunway Medical Lab","Sunway Medical Center, Sunway City, Kuala Lumpur","30/03/2023","URINE","Clear","None","None","12.0","0.5","80.0","12.0","34.0"
