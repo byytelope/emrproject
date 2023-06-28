@@ -6,8 +6,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -29,38 +31,41 @@ public class CsvHandler {
     }
 
     // Wrapper methods
+    // Add methods
 
     public void addUser(User user) {
-        addOneCsv(user.getFileName(), user.toCsvHeader(), user.toCsvString());
+        addCsv(user.getFileName(), user.toCsvHeader(), user.toCsvString());
     }
 
     public void addPatient(Patient patient) {
-        addOneCsv(patient.getFileName(), patient.toCsvHeader(), patient.toCsvString());
+        addCsv(patient.getFileName(), patient.toCsvHeader(), patient.toCsvString());
     }
 
     public void addAppointmentReq(AppointmentRequest appointmentReq) {
-        addOneCsv(appointmentReq.getFileName(), appointmentReq.toCsvHeader(),
+        addCsv(appointmentReq.getFileName(), appointmentReq.toCsvHeader(),
                 appointmentReq.toCsvString());
     }
 
     public void addTreatmentCourse(TreatmentCourse treatmentCourse) {
-        addOneCsv(treatmentCourse.getFileName(), treatmentCourse.toCsvHeader(),
+        addCsv(treatmentCourse.getFileName(), treatmentCourse.toCsvHeader(),
                 treatmentCourse.toCsvString());
     }
 
     public void addDiagnosis(Diagnosis diagnosis) {
-        addOneCsv(diagnosis.getFileName(), diagnosis.toCsvHeader(),
+        addCsv(diagnosis.getFileName(), diagnosis.toCsvHeader(),
                 diagnosis.toCsvString());
     }
 
     public void addAnalysis(BaseAnalysis analysis) {
-        addOneCsv(analysis.getFileName(), analysis.toCsvHeader(),
+        addCsv(analysis.getFileName(), analysis.toCsvHeader(),
                 analysis.toCsvString());
     }
 
     public void addMedicalHistory(MedicalHistory medicalHistory) {
-        addOneCsv(medicalHistory.getFileName(), medicalHistory.toCsvHeader(), medicalHistory.toCsvString());
+        addCsv(medicalHistory.getFileName(), medicalHistory.toCsvHeader(), medicalHistory.toCsvString());
     }
+
+    // Get one methods
 
     public User getUser(String userNid) {
         List<User> users = getCsv(new User().getFileName(), info -> {
@@ -127,7 +132,7 @@ public class CsvHandler {
             String results = info[6];
 
             return new TreatmentCourse(uid, patientNid, diagnosis, treatmentType, startDate, endDate, results);
-        }, course -> true, false);
+        }, course -> course.getUid().equals(courseUid), false);
 
         return courses.isEmpty() ? null : courses.get(0);
     }
@@ -261,6 +266,8 @@ public class CsvHandler {
 
         return medicalHistories.isEmpty() ? null : medicalHistories.get(0);
     }
+
+    // Get all methods
 
     public List<User> getAllUsers() {
         return getCsv(new User().getFileName(), info -> {
@@ -451,6 +458,8 @@ public class CsvHandler {
         }, history -> history.getPatientNid().equals(nid), true);
     }
 
+    // Update methods
+
     public void updateUser(User updatedUser) {
         updateCsv(updatedUser.getFileName(), info -> {
             String nid = info[0];
@@ -477,6 +486,38 @@ public class CsvHandler {
         }, patient -> ((Patient) patient).getNid().equals(updatedPatient.getNid()), updatedPatient);
     }
 
+    // Delete methods
+
+    public void deleteBioBloodAnalysis(String uid) {
+        String filename = new BioBloodAnalysis().getFileName();
+        deleteCsv(filename, uid);
+    }
+
+    public void deleteBloodAnalysis(String uid) {
+        String filename = new BloodAnalysis().getFileName();
+        deleteCsv(filename, uid);
+    }
+
+    public void deleteUrineAnalysis(String uid) {
+        String filename = new UrineAnalysis().getFileName();
+        deleteCsv(filename, uid);
+    }
+
+    public void deleteDiagnosis(String uid) {
+        String filename = new Diagnosis().getFileName();
+        deleteCsv(filename, uid);
+    }
+
+    public void deleteMedicalHistory(String uid) {
+        String filename = new MedicalHistory().getFileName();
+        deleteCsv(filename, uid);
+    }
+
+    public void deleteTreatmentCourse(String uid) {
+        String filename = new TreatmentCourse().getFileName();
+        deleteCsv(filename, uid);
+    }
+
     // Implementation methods
 
     public static String[] parseCsvLine(String line) {
@@ -500,7 +541,7 @@ public class CsvHandler {
         return fields.toArray(new String[0]);
     }
 
-    private static void addOneCsv(String fileName, String header, String data) {
+    private static void addCsv(String fileName, String header, String data) {
         FileWriter fileWriter = null;
 
         try {
@@ -616,4 +657,26 @@ public class CsvHandler {
         }
     }
 
+    private static void deleteCsv(String fileName, String id) {
+        File file = new File(fileName);
+        if (file.exists()) {
+            try {
+                List<String> lines = Files.readAllLines(file.toPath());
+
+                Iterator<String> iterator = lines.iterator();
+                while (iterator.hasNext()) {
+                    String line = iterator.next();
+                    if (line.contains(id)) {
+                        iterator.remove();
+                        break;
+                    }
+                }
+                Files.write(file.toPath(), lines);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println(fileName + " does not exist.");
+        }
+    }
 }

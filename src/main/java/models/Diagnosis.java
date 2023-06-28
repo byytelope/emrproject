@@ -2,7 +2,6 @@ package models;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class Diagnosis extends BaseModel {
     private String uid;
@@ -17,7 +16,7 @@ public class Diagnosis extends BaseModel {
     public Diagnosis(String uid, String patientNid, String diagnosis, String date, String labId, String labName,
             String results,
             List<String> allergies) {
-        this.uid = UUID.randomUUID().toString();
+        this.uid = uid;
         this.patientNid = patientNid;
         this.diagnosis = diagnosis;
         this.date = date;

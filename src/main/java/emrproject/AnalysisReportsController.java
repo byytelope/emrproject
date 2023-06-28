@@ -16,10 +16,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.BaseAnalysis;
+import models.BioBloodAnalysis;
+import models.BloodAnalysis;
 import models.Patient;
+import models.UrineAnalysis;
 import models.User;
 import utils.CsvHandler;
 import utils.MiscUtils;
@@ -47,7 +52,53 @@ public class AnalysisReportsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        CsvHandler csvHandler = new CsvHandler();
+
         analysisReportsTable.setPlaceholder(new Text("No analyses have been made."));
+        analysisReportsTable.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+                ObservableList<String> list = analysisReportsTable.getSelectionModel().getSelectedItem();
+                String analysisType = list.get(6);
+
+                if (analysisType.equals("BLOOD")) {
+                    BloodAnalysis report = csvHandler.getBloodAnalysis(list.get(0));
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("bloodAnalysisReport.fxml"));
+                        Parent root1 = (Parent) fxmlLoader.load();
+                        Stage stage = new Stage();
+                        stage.setUserData(report);
+                        stage.setScene(new Scene(root1));
+                        stage.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else if (analysisType.equals("BIOBLOOD")) {
+                    BioBloodAnalysis report = csvHandler.getBioBloodAnalysis(list.get(0));
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("bioBloodAnalysisReport.fxml"));
+                        Parent root1 = (Parent) fxmlLoader.load();
+                        Stage stage = new Stage();
+                        stage.setUserData(report);
+                        stage.setScene(new Scene(root1));
+                        stage.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else if (analysisType.equals("URINE")) {
+                    UrineAnalysis report = csvHandler.getUrineAnalysis(list.get(0));
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("urineAnalysisReport.fxml"));
+                        Parent root1 = (Parent) fxmlLoader.load();
+                        Stage stage = new Stage();
+                        stage.setUserData(report);
+                        stage.setScene(new Scene(root1));
+                        stage.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         User currentUser = UserSession.getInstance().getUser();
         if (currentUser.getIsPatient())
@@ -57,8 +108,7 @@ public class AnalysisReportsController implements Initializable {
         patientNameText.setText(currentPatient.getName());
         patientNidText.setText(currentPatient.getNid());
 
-        CsvHandler csvHandler = new CsvHandler();
-        List<String> columnNames = Arrays.asList(new BaseAnalysis().toCsvHeader().replace("uid,", "").split(","));
+        List<String> columnNames = Arrays.asList(new BaseAnalysis().toCsvHeader().split(","));
 
         MiscUtils.initializeTableColumns(columnNames, analysisReportsTable);
         List<BaseAnalysis> analyses = csvHandler.getAllAnalyses(currentPatient.getNid());

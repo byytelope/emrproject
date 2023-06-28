@@ -1,7 +1,5 @@
 package models;
 
-import java.util.UUID;
-
 public class TreatmentCourse extends BaseModel {
     private String uid;
     private String patientNid;
@@ -14,7 +12,7 @@ public class TreatmentCourse extends BaseModel {
     public TreatmentCourse(String uid, String patientNid, String diagnosis, String treatmentType, String startDate,
             String endDate,
             String results) {
-        this.uid = UUID.randomUUID().toString();
+        this.uid = uid;
         this.patientNid = patientNid;
         this.diagnosis = diagnosis;
         this.treatmentType = treatmentType;

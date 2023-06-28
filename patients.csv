@@ -1,3 +1,4 @@
 nid,name,gender,address,nationality,email,contactNumber,age,allergies
-"A123456","Mohamed Shadhaan","Male","House, Street, City","Maldivian","patient@email.com","1234567","20","Nuts,Seafood"
+"A123456","Mohamed Ali","Male","House, Street, City","Maldivian","patient@email.com","1234567","20","Nuts,Seafood"
 "A231314","Lee We Yin","Female","House, Street, City","Malaysian","patient2@email.com","32321313","25",""
+"17827831","Patient 3","Male","AJKDAJKSDHKJ","Malaysian","patient3@email.com","123123123","40",",Nuts"

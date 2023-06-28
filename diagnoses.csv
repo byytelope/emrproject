@@ -1,2 +1,3 @@
 uid,patientNid,diagnosis,date,labId,labName,results,allergies
 "33ff9486-c339-4b67-b558-ec8328ca94a3","A123456","Seafood allergy","28/06/2023","LA123","Sunway Medical Lab","Seafood allergy is observed. Rashes.","Seafood"
+"76737d83-5ef9-4005-b1f2-f6a3ffa84c36","17827831","Stroke","12/03/2022","A1231","AKjdajksd","dkajndkjasndkjasnkdja","Nuts"

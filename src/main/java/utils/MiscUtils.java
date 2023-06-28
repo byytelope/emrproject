@@ -72,7 +72,6 @@ public class MiscUtils {
                     BaseModel item = (BaseModel) li;
                     ObservableList<String> row = FXCollections
                             .observableArrayList(CsvHandler.parseCsvLine(item.toCsvString()));
-                    row.remove(0);
                     rows.add(row);
                 }
             }

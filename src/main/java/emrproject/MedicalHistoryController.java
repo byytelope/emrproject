@@ -16,6 +16,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.MedicalHistory;
@@ -47,7 +49,26 @@ public class MedicalHistoryController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        CsvHandler csvHandler = new CsvHandler();
+
         medicalHistoryTable.setPlaceholder(new Text("No medical history exists for the patient."));
+        medicalHistoryTable.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+                ObservableList<String> list = medicalHistoryTable.getSelectionModel().getSelectedItem();
+                MedicalHistory report = csvHandler.getMedicalHistory(list.get(0));
+
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("medicalHistoryReport.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    Stage stage = new Stage();
+                    stage.setUserData(report);
+                    stage.setScene(new Scene(root1));
+                    stage.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         User currentUser = UserSession.getInstance().getUser();
         if (currentUser.getIsPatient())
@@ -57,8 +78,7 @@ public class MedicalHistoryController implements Initializable {
         patientNameText.setText(currentPatient.getName());
         patientNidText.setText(currentPatient.getNid());
 
-        CsvHandler csvHandler = new CsvHandler();
-        List<String> columnNames = Arrays.asList(new MedicalHistory().toCsvHeader().replace("uid,", "").split(","));
+        List<String> columnNames = Arrays.asList(new MedicalHistory().toCsvHeader().split(","));
 
         MiscUtils.initializeTableColumns(columnNames, medicalHistoryTable);
         List<MedicalHistory> medicalHistories = csvHandler.getAllMedicalHistory(currentPatient.getNid());

@@ -16,6 +16,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Diagnosis;
@@ -47,21 +49,41 @@ public class DiagnosisReportsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        CsvHandler csvHandler = new CsvHandler();
+
         diagnosisReportsTable.setPlaceholder(new Text("No diagnoses have been made."));
+        diagnosisReportsTable.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+                ObservableList<String> list = diagnosisReportsTable.getSelectionModel().getSelectedItem();
+                Diagnosis report = csvHandler.getDiagnosis(list.get(0));
+
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("diagnosisReport.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    Stage stage = new Stage();
+                    stage.setUserData(report);
+                    stage.setScene(new Scene(root1));
+                    stage.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         User currentUser = UserSession.getInstance().getUser();
         if (currentUser.getIsPatient())
             newDiagnosisButton.setVisible(false);
 
-        Patient currentPatient = UserSession.getInstance().getPatient();
+        Patient currentPatient = UserSession.getInstance()
+                .getPatient();
         patientNameText.setText(currentPatient.getName());
         patientNidText.setText(currentPatient.getNid());
 
-        CsvHandler csvHandler = new CsvHandler();
-        List<String> columnNames = Arrays.asList(new Diagnosis().toCsvHeader().replace("uid,", "").split(","));
+        List<String> columnNames = Arrays.asList(new Diagnosis().toCsvHeader().split(","));
 
         MiscUtils.initializeTableColumns(columnNames, diagnosisReportsTable);
-        List<Diagnosis> diagnoses = csvHandler.getAllDiagnoses(currentPatient.getNid());
+        List<Diagnosis> diagnoses = csvHandler
+                .getAllDiagnoses(currentPatient.getNid());
         MiscUtils.initializeTableRows(diagnoses, diagnosisReportsTable);
     }
 

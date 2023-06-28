@@ -16,6 +16,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Patient;
@@ -47,7 +49,27 @@ public class TreatmentCoursesController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        CsvHandler csvHandler = new CsvHandler();
+
         treatmentCoursesTable.setPlaceholder(new Text("No treatment courses have been started."));
+        treatmentCoursesTable.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+                ObservableList<String> list = treatmentCoursesTable.getSelectionModel().getSelectedItem();
+                TreatmentCourse report = csvHandler.getTreatmentCourse(list.get(0));
+                System.out.println(report);
+
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("treatmentCourseReport.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    Stage stage = new Stage();
+                    stage.setUserData(report);
+                    stage.setScene(new Scene(root1));
+                    stage.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         User currentUser = UserSession.getInstance().getUser();
         if (currentUser.getIsPatient())
@@ -57,8 +79,7 @@ public class TreatmentCoursesController implements Initializable {
         patientNameText.setText(currentPatient.getName());
         patientNidText.setText(currentPatient.getNid());
 
-        CsvHandler csvHandler = new CsvHandler();
-        List<String> columnNames = Arrays.asList(new TreatmentCourse().toCsvHeader().replace("uid,", "").split(","));
+        List<String> columnNames = Arrays.asList(new TreatmentCourse().toCsvHeader().split(","));
 
         MiscUtils.initializeTableColumns(columnNames, treatmentCoursesTable);
         List<TreatmentCourse> treatmentCourses = csvHandler.getAllTreatmentCourses(currentPatient.getNid());
