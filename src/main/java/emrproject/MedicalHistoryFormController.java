@@ -113,17 +113,17 @@ public class MedicalHistoryFormController implements Initializable {
         String errorText = "";
 
         if (!heightIsValid)
-            errorText += "Height must be a decimal number.";
+            errorText += "Height must be a decimal number.\n";
         if (!weightIsValid)
-            errorText += "Weight must be a decimal number.";
+            errorText += "Weight must be a decimal number.\n";
         if (!attendingStaffIsValid)
-            errorText += "Attending staff must not be blank.";
+            errorText += "Attending staff must not be blank.\n";
         if (!medicationNameIsValid)
-            errorText += "Medication must be provided.";
+            errorText += "Medication must be provided.\n";
         if (!wardNoIsValid)
-            errorText += "Ward number must not be blank.";
+            errorText += "Ward number must not be blank.\n";
         if (!treatmentHistoryIsValid)
-            errorText += "Treatment history must be provided.";
+            errorText += "Treatment history must be provided.\n";
 
         if (!procedureNameIsValid)
             procedureName = "";

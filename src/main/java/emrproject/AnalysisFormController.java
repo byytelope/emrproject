@@ -249,21 +249,21 @@ public class AnalysisFormController implements Initializable {
             boolean altIsValid = MiscUtils.isDouble(altText);
 
             if (!sodiumIsValid)
-                errorText += "Enter a number value for sodium.";
+                errorText += "Enter a number value for sodium.\n";
             if (!potassiumIsValid)
-                errorText += "Enter a number value for potassium.";
+                errorText += "Enter a number value for potassium.\n";
             if (!ureaIsValid)
-                errorText += "Enter a number value for urea.";
+                errorText += "Enter a number value for urea.\n";
             if (!creatinineIsValid)
-                errorText += "Enter a number value for creatinine.";
+                errorText += "Enter a number value for creatinine.\n";
             if (!glucoseIsValid)
-                errorText += "Enter a number value for glucose.";
+                errorText += "Enter a number value for glucose.\n";
             if (!biluribinIsValid)
-                errorText += "Enter a number value for biluribin.";
+                errorText += "Enter a number value for biluribin.\n";
             if (!astIsValid)
-                errorText += "Enter a number value for AST.";
+                errorText += "Enter a number value for AST.\n";
             if (!altIsValid)
-                errorText += "Enter a number value for ALT.";
+                errorText += "Enter a number value for ALT.\n";
 
             if (errorText.isBlank()) {
                 BioBloodAnalysis bioBloodAnalysis = new BioBloodAnalysis(UUID.randomUUID().toString(),
@@ -297,13 +297,13 @@ public class AnalysisFormController implements Initializable {
             boolean lymphocyteIsValid = MiscUtils.isDouble(lymphocyteText);
 
             if (!whiteBloodCellBIsValid)
-                errorText += "Enter a number value for WBC.";
+                errorText += "Enter a number value for WBC.\n";
             if (!redBloodCellBIsValid)
-                errorText += "Enter a number value for RBC.";
+                errorText += "Enter a number value for RBC.\n";
             if (!haemoglobinIsValid)
-                errorText += "Enter a number value for haemoglobin.";
+                errorText += "Enter a number value for haemoglobin.\n";
             if (!lymphocyteIsValid)
-                errorText += "Enter a number value for lymphocytes.";
+                errorText += "Enter a number value for lymphocytes.\n";
 
             if (errorText.isBlank()) {
                 BloodAnalysis bloodAnalysis = new BloodAnalysis(UUID.randomUUID().toString(), currentPatient.getNid(),
@@ -335,22 +335,22 @@ public class AnalysisFormController implements Initializable {
             boolean whiteBloodCellUIsValid = MiscUtils.isDouble(whiteBloodCellUText);
             boolean redBloodCellUIsValid = MiscUtils.isDouble(redBloodCellUText);
 
-            if (clarityIsValid)
-                errorText += "Clarity description cannot be empty.";
-            if (crystalsIsValid)
-                errorText += "Crystals description cannot be empty.";
-            if (bacteriaIsValid)
-                errorText += "Bacteria field cannot be empty.";
-            if (ketoneIsValid)
-                errorText += "Enter a number value for ketone.";
-            if (proteinIsValid)
-                errorText += "Enter a number value for protein.";
-            if (clinitestIsValid)
-                errorText += "Enter a number value for clinitest.";
-            if (whiteBloodCellUIsValid)
-                errorText += "Enter a number value for WBC.";
-            if (redBloodCellUIsValid)
-                errorText += "Enter a number value for RBC.";
+            if (!clarityIsValid)
+                errorText += "Clarity description cannot be empty.\n";
+            if (!crystalsIsValid)
+                errorText += "Crystals description cannot be empty.\n";
+            if (!bacteriaIsValid)
+                errorText += "Bacteria field cannot be empty.\n";
+            if (!ketoneIsValid)
+                errorText += "Enter a number value for ketone.\n";
+            if (!proteinIsValid)
+                errorText += "Enter a number value for protein.\n";
+            if (!clinitestIsValid)
+                errorText += "Enter a number value for clinitest.\n";
+            if (!whiteBloodCellUIsValid)
+                errorText += "Enter a number value for WBC.\n";
+            if (!redBloodCellUIsValid)
+                errorText += "Enter a number value for RBC.\n";
 
             if (errorText.isBlank()) {
                 UrineAnalysis urineAnalysis = new UrineAnalysis(UUID.randomUUID().toString(), currentPatient.getNid(),
